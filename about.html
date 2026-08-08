@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About &amp; Methodology — MDCGT | Maryland Data Center Governance Tracker</title>
+<meta name="description" content="How MDCGT works: the VERIFIED/ASSESSMENT/UNKNOWN system, our neutral stance, and how the tracker is kept current.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101E33;--ink2:#1B2C4A;--paper:#F5F7FA;--card:#FFFFFF;--gold:#E8B21E;
+    --red:#9E2B25;--maroon:#6B1A1A;--green:#1F7A4D;--amber:#B97A0F;--slate:#33415C;--mist:#8A97AD;--line:#E2E7EF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--slate);font-family:'Work Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Big Shoulders',sans-serif;color:var(--navy);margin:0;letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .mark{width:34px;height:34px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;border-radius:4px;overflow:hidden;flex:none;}
+  .mark span:nth-child(1){background:var(--gold);}
+  .mark span:nth-child(2){background:var(--ink2);}
+  .mark span:nth-child(3){background:#C7CDD8;}
+  .mark span:nth-child(4){background:var(--red);}
+  .mark.lg{width:56px;height:56px;border-radius:8px;}
+  header.site{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;}
+  .header-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:18px;}
+  .wordmark{display:flex;align-items:center;gap:12px;flex:none;}
+  .wordmark .name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:0.02em;line-height:1;}
+  .wordmark .sub{font-size:11.5px;color:#B8C2D6;line-height:1.3;border-left:1px solid rgba(255,255,255,0.2);padding-left:12px;max-width:150px;}
+  .tagline{flex:1;text-align:center;color:var(--gold);font-family:'Big Shoulders',sans-serif;font-weight:600;font-size:16px;letter-spacing:0.03em;display:none;}
+  nav.primary{display:flex;align-items:center;gap:26px;font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:#D7DEEA;text-transform:uppercase;}
+  nav.primary a{text-decoration:none;}
+  nav.primary a:hover{color:#fff;}
+  nav.primary a.current{color:var(--gold);}
+  .btn-outline{border:1px solid var(--gold);color:var(--gold) !important;padding:8px 14px;border-radius:3px;white-space:nowrap;}
+  .btn-outline:hover{background:var(--gold);color:var(--navy) !important;}
+  @media(min-width:980px){.tagline{display:block;}}
+  .crumb{max-width:1280px;margin:0 auto;padding:16px 28px 0;font-size:12px;color:var(--mist);}
+  .crumb a{text-decoration:none;color:var(--mist);}
+  .crumb a:hover{color:var(--navy);}
+
+  .page-hero{background:linear-gradient(180deg,var(--navy) 0%, var(--ink2) 100%);color:#EDF1F8;padding:48px 28px 44px;margin-top:16px;}
+  .page-hero-inner{max-width:900px;margin:0 auto;display:flex;gap:22px;align-items:flex-start;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:12.5px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;}
+  .page-hero h1{color:#fff;font-size:clamp(30px,4.6vw,44px);font-weight:800;line-height:1.05;}
+  .page-hero p.lede{color:#C3CCDE;font-size:16px;line-height:1.7;margin-top:16px;max-width:680px;}
+
+  main{max-width:900px;margin:0 auto;padding:48px 28px 70px;}
+  section{margin-bottom:52px;}
+  section:last-of-type{margin-bottom:0;}
+
+  .s-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--mist);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+  h2.s-title{font-size:28px;font-weight:800;margin-bottom:16px;}
+  .body-text{font-size:15.5px;line-height:1.75;color:var(--slate);}
+  .body-text + .body-text{margin-top:14px;}
+  .body-text b{color:var(--navy);}
+
+  /* three-way legend, reused pattern from homepage */
+  .legend{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+  .legend-item{background:var(--card);padding:20px 20px;}
+  .legend-item .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.08em;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .tag-verified{background:var(--green);color:#fff;}
+  .tag-assessment{background:var(--amber);color:#fff;}
+  .tag-unknown{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .legend-item h4{font-size:15px;margin-bottom:6px;}
+  .legend-item p{margin:0;font-size:13.5px;color:var(--slate);line-height:1.55;}
+  .legend-item .example{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--mist);font-style:italic;}
+
+  /* chip demo */
+  .chip-demo{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.04em;padding:5px 12px;border-radius:20px;text-transform:uppercase;line-height:1.4;white-space:nowrap;}
+  .chip--active{background:var(--gold);color:var(--navy);}
+  .chip--pause{background:var(--amber);color:#fff;}
+  .chip--ban{background:var(--maroon);color:#fff;}
+  .chip--outlined{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .chip-arrow{color:var(--mist);font-size:13px;}
+
+  /* what we are / aren't */
+  .split-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px;}
+  @media(min-width:640px){.split-grid{grid-template-columns:1fr 1fr;}}
+  .split-card{border-radius:8px;padding:20px 22px;border:1px solid var(--line);}
+  .split-card.yes{border-left:4px solid var(--green);}
+  .split-card.no{border-left:4px solid var(--maroon);}
+  .split-card h4{font-size:15px;margin-bottom:10px;}
+  .split-card ul{margin:0;padding-left:18px;}
+  .split-card li{font-size:13.5px;line-height:1.6;color:var(--slate);margin-bottom:6px;}
+
+  /* cadence */
+  .cadence-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .cadence-row:last-child{border-bottom:none;padding-bottom:0;}
+  .cadence-row:first-child{padding-top:0;}
+  .cadence-label{color:var(--slate);font-weight:500;}
+  .cadence-value{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--navy);}
+
+  .callout{background:#fff;border:1px solid var(--line);border-left:5px solid var(--navy);border-radius:8px;padding:22px 24px;}
+  .callout p{font-size:14.5px;line-height:1.7;color:var(--slate);margin:0;}
+  .callout p + p{margin-top:10px;}
+
+  footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
+  .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
+  .footer-inner b{color:#D7DEEA;}
+
+  @media(max-width:640px){
+    .header-inner{flex-wrap:wrap;}
+    nav.primary{gap:14px;font-size:11px;order:3;width:100%;justify-content:flex-start;overflow-x:auto;padding-top:8px;}
+    .wordmark .sub{display:none;}
+    main{padding:36px 16px 50px;}
+    .page-hero{padding:36px 16px 34px;}
+    .page-hero-inner{flex-direction:column;}
+    .crumb{padding:14px 16px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="mark"><span></span><span></span><span></span><span></span></div>
+      <div class="name">MDCGT</div>
+      <div class="sub">Maryland Data Center Governance Tracker</div>
+    </div>
+    <div class="tagline">Understand. Engage. Shape Our Future.</div>
+    <nav class="primary">
+      <a href="about.html" class="current">About</a>
+      <a href="about.html#methodology">Methodology</a>
+      <a href="index.html#counties">Counties</a>
+      <a href="grid.html">Grid &amp; FERC</a>
+      <a href="#" class="btn-outline">Get Involved</a>
+    </nav>
+  </div>
+</header>
+
+<div class="crumb"><a href="index.html">Statewide Board</a> &nbsp;/&nbsp; About &amp; Methodology</div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="mark lg"><span></span><span></span><span></span><span></span></div>
+    <div>
+      <div class="eyebrow mono">About This Project</div>
+      <h1>How MDCGT works — and where its limits are.</h1>
+      <p class="lede">MDCGT exists to give Marylanders a single, honest, continuously updated view of data center governance across every county and the state's grid regulators — without telling anyone what to think about it.</p>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section id="about-project">
+    <div class="s-eyebrow">Who We Are</div>
+    <h2 class="s-title">A civic information project, not an advocacy campaign</h2>
+    <p class="body-text">MDCGT compiles public filings, county records, court dockets, and local reporting into a single, structured tracker. We do not take a position on whether data centers should be built in Maryland. Our job is narrower and, we think, more useful: make it possible for a resident, a reporter, a county planner, or a legislator in a different county to see the full state of play in a few minutes, sourced and dated.</p>
+    <p class="body-text">Every county in Maryland is handling this differently — bans, multi-year moratoria, application pauses, or no response at all. That variation is itself part of the story, and it's easy to lose track of it when each county's fight gets covered in isolation by local press. This site exists to hold all 24 jurisdictions in view at once.</p>
+  </section>
+
+  <section id="methodology">
+    <div class="s-eyebrow">Methodology</div>
+    <h2 class="s-title">The three-way distinction is the core of this project</h2>
+    <p class="body-text">Every factual claim on this site is labeled one of three ways. This is not decorative styling — it's the actual credibility mechanism the tracker is built around, and it's the first thing to understand before treating anything here as a source.</p>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="tag tag-verified mono">VERIFIED</span>
+        <h4>Confirmed by a primary source</h4>
+        <p>Drawn directly from a filing, ordinance, docket, or official record, and cited to it. If we say a moratorium passed 11&#8211;0 on a specific date, that's because a county record or news report of the vote says so.</p>
+        <div class="example">Example: "Council voted 11–0 to pass Bill 19-26 on Jul 28, 2026" — sourced to county government records and press coverage.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tag tag-assessment mono">ASSESSMENT</span>
+        <h4>Our own analysis</h4>
+        <p>A judgment call we're making by connecting verified facts — a pattern across counties, a risk we think is worth flagging, a read on how strong a legal position is. Always labeled as ours, never presented as established fact.</p>
+        <div class="example">Example: the cross-county note that Montgomery and Charles draw from the same stretch of the Potomac is our synthesis, not a claim either county's government has made.</div>
+      </div>
+      <div class="legend-item">
+        <span class="tag tag-unknown mono">UNKNOWN</span>
+        <h4>Not established in current sources</h4>
+        <p>We looked and didn't find a public answer. This is different from "no" — an unknown jobs figure doesn't mean zero jobs, it means we can't yet tell you a number. We'd rather show a gap than guess.</p>
+        <div class="example">Example: several county pages mark projected job counts "Unknown" because no public source has published a figure yet.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chips">
+    <div class="s-eyebrow">Reading The Site</div>
+    <h2 class="s-title">Filled chips vs. outlined chips</h2>
+    <p class="body-text">Status chips across the site follow the same logic as the labels above. A <b>filled chip</b> marks confirmed, source-cited activity. An <b>outlined chip</b> marks something weaker — a claim we're less sure of, or an absence we can't fully confirm.</p>
+    <div class="chip-demo">
+      <span class="chip chip--ban">Permanent Ban</span>
+      <span class="chip chip--pause">Moratorium Enacted</span>
+      <span class="chip chip--active">Active Proposal</span>
+      <span class="chip-arrow">— all filled, all confirmed</span>
+    </div>
+    <div class="chip-demo">
+      <span class="chip chip--outlined">No Activity Found</span>
+      <span class="chip-arrow">— outlined, always. This never becomes a filled "Confirmed Quiet" chip, because we can't confirm a negative from a search that simply didn't turn anything up.</span>
+    </div>
+  </section>
+
+  <section id="stance">
+    <div class="s-eyebrow">Scope</div>
+    <h2 class="s-title">What this project is — and isn't</h2>
+    <div class="split-grid">
+      <div class="split-card yes">
+        <h4 class="mono" style="color:var(--green);">WE DO</h4>
+        <ul>
+          <li>Track proposals, pauses, bans, and pending legislation by county</li>
+          <li>Follow the PJM/FERC/OPC cost-allocation dispute affecting every ratepayer</li>
+          <li>Flag conflicting figures across sources instead of picking one</li>
+          <li>Update on a rolling cadence and note what changed since the last version</li>
+          <li>Cite every claim back to where it came from</li>
+        </ul>
+      </div>
+      <div class="split-card no">
+        <h4 class="mono" style="color:var(--maroon);">WE DON'T</h4>
+        <ul>
+          <li>Advocate for or against data center development</li>
+          <li>Offer legal advice or guarantee current docket status</li>
+          <li>Treat a "no activity found" county as confirmed quiet</li>
+          <li>Present developer or advocate figures as independently verified</li>
+          <li>Fill gaps with plausible-sounding estimates</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="cadence">
+    <div class="s-eyebrow">Staying Current</div>
+    <h2 class="s-title">Update cadence</h2>
+    <div class="callout" style="border-left-color:var(--gold);">
+      <div class="cadence-row"><span class="cadence-label">Pilot county pages (Frederick, Montgomery, PG, Charles)</span><span class="cadence-value">MONTHLY</span></div>
+      <div class="cadence-row"><span class="cadence-label">Statewide status board</span><span class="cadence-value">MONTHLY</span></div>
+      <div class="cadence-row"><span class="cadence-label">Grid &amp; regulatory / FERC page</span><span class="cadence-value">EVENT-TRIGGERED</span></div>
+      <div class="cadence-row"><span class="cadence-label">Standing docket checks (EL26-63, RTO adder)</span><span class="cadence-value">EVERY REFRESH</span></div>
+    </div>
+  </section>
+
+  <section id="disclaimer">
+    <div class="s-eyebrow">The Fine Print</div>
+    <h2 class="s-title">Not legal advice, always double-check</h2>
+    <div class="callout">
+      <p>All data on this site is a preliminary compilation from public sources and is subject to change. Nothing here is legal advice. Docket statuses, hearing dates, and legislative outcomes move fast — verify anything time-sensitive directly with the issuing county, agency, or FERC eLibrary before relying on it for a decision.</p>
+      <p>If you find something out of date or incorrect, that's expected in a project moving this fast — reach out and we'll fix it on the next update.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="footer-inner">
+    <div style="max-width:520px;"><b>MDCGT</b> is a civic information project. All data is preliminary, compiled from public sources, and subject to change. This is not legal advice — verify directly with the issuing county or agency before acting on anything here.</div>
+    <div>Have a correction or an update? We want to hear it.</div>
+    <div><a href="index.html" style="text-decoration:none;color:#D7DEEA;">&larr; Back to Statewide Board</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
