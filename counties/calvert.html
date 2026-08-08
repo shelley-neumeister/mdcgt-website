@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calvert County — MDCGT | Maryland Data Center Governance Tracker</title>
+<meta name="description" content="Calvert County data center governance status: the Appeal Digital Park proposal and a pending moratorium hearing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101E33;--ink2:#1B2C4A;--paper:#F5F7FA;--card:#FFFFFF;--gold:#E8B21E;
+    --red:#9E2B25;--maroon:#6B1A1A;--green:#1F7A4D;--amber:#B97A0F;--slate:#33415C;--mist:#8A97AD;--line:#E2E7EF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--slate);font-family:'Work Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Big Shoulders',sans-serif;color:var(--navy);margin:0;letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .mark{width:34px;height:34px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;border-radius:4px;overflow:hidden;flex:none;}
+  .mark span:nth-child(1){background:var(--gold);}
+  .mark span:nth-child(2){background:var(--ink2);}
+  .mark span:nth-child(3){background:#C7CDD8;}
+  .mark span:nth-child(4){background:var(--red);}
+  header.site{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;}
+  .header-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:18px;}
+  .wordmark{display:flex;align-items:center;gap:12px;flex:none;}
+  .wordmark .name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:0.02em;line-height:1;}
+  .wordmark .sub{font-size:11.5px;color:#B8C2D6;line-height:1.3;border-left:1px solid rgba(255,255,255,0.2);padding-left:12px;max-width:150px;}
+  .tagline{flex:1;text-align:center;color:var(--gold);font-family:'Big Shoulders',sans-serif;font-weight:600;font-size:16px;letter-spacing:0.03em;display:none;}
+  nav.primary{display:flex;align-items:center;gap:26px;font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:#D7DEEA;text-transform:uppercase;}
+  nav.primary a{text-decoration:none;}
+  nav.primary a:hover{color:#fff;}
+  .btn-outline{border:1px solid var(--gold);color:var(--gold) !important;padding:8px 14px;border-radius:3px;white-space:nowrap;}
+  .btn-outline:hover{background:var(--gold);color:var(--navy) !important;}
+  @media(min-width:980px){.tagline{display:block;}}
+  .switcher{background:var(--ink2);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:63px;z-index:49;}
+  .switcher-inner{max-width:1280px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:8px;overflow-x:auto;}
+  .switcher-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#8B98B3;letter-spacing:0.08em;text-transform:uppercase;margin-right:6px;flex:none;}
+  .switcher-item{font-size:13px;font-weight:600;color:#C3CCDE;padding:6px 13px;border-radius:20px;border:1px solid rgba(255,255,255,0.14);text-decoration:none;white-space:nowrap;flex:none;transition:background .12s ease, color .12s ease, border-color .12s ease;}
+  .switcher-item:hover{border-color:var(--gold);color:#fff;}
+  .switcher-item.current{background:var(--gold);color:var(--navy);border-color:var(--gold);}
+  .switcher-item .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+  .dot-active{background:var(--gold);}
+  .switcher-item.current .dot{background:var(--navy);}
+  .crumb{max-width:1280px;margin:0 auto;padding:16px 28px 0;font-size:12px;color:var(--mist);}
+  .crumb a{text-decoration:none;color:var(--mist);}
+  .crumb a:hover{color:var(--navy);}
+  .page-hero{max-width:1280px;margin:0 auto;padding:18px 28px 30px;}
+  .hero-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;}
+  .county-title{font-size:clamp(32px,5vw,50px);font-weight:800;line-height:1;}
+  .not-pilot-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.06em;background:transparent;color:var(--mist);border:1px solid var(--mist);padding:4px 10px;border-radius:3px;margin-left:12px;vertical-align:middle;}
+  .updated-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mist);}
+  .headline-flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.04em;padding:5px 11px;border-radius:20px;text-transform:uppercase;line-height:1.4;white-space:nowrap;}
+  .chip--active{background:var(--gold);color:var(--navy);}
+  .chip--pause{background:var(--amber);color:#fff;}
+  .chip--outlined{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .snapshot-line{font-size:16px;line-height:1.65;color:var(--slate);max-width:880px;margin-top:18px;}
+  main{max-width:1280px;margin:0 auto;padding:0 28px 60px;}
+  .layout{display:grid;grid-template-columns:1fr;gap:36px;margin-top:8px;}
+  @media(min-width:960px){.layout{grid-template-columns:2.1fr 1fr;}}
+  .stack{display:flex;flex-direction:column;gap:32px;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:24px 26px;}
+  .panel h2{font-size:22px;font-weight:800;margin-bottom:16px;}
+  .panel h2 .eyebrow-mini{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--mist);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+  .timeline{position:relative;padding-left:22px;}
+  .timeline::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line);}
+  .t-item{position:relative;padding-bottom:20px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{content:"";position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--card);box-shadow:0 0 0 1px var(--gold);}
+  .t-item.flag::before{background:var(--red);box-shadow:0 0 0 1px var(--red);}
+  .t-date{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mist);letter-spacing:0.03em;}
+  .t-body{font-size:14px;line-height:1.6;color:var(--slate);margin-top:3px;}
+  .t-body b{color:var(--navy);}
+  .side-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:20px;}
+  .side-panel h3{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  .gov-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;}
+  .gov-row .k{color:var(--slate);}
+  .gov-row .v{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--navy);text-align:right;}
+  .watch-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.5;}
+  .watch-item:last-child{border-bottom:none;padding-bottom:0;}
+  .watch-item:first-child{padding-top:0;}
+  .watch-dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:5px;}
+  .source-item{font-size:12px;color:var(--mist);padding:6px 0;border-bottom:1px solid var(--line);}
+  .source-item:last-child{border-bottom:none;}
+  .source-item b{color:var(--slate);font-weight:600;}
+  .gap-panel{background:rgba(232,178,30,0.08);border:1px solid rgba(185,122,15,0.3);border-radius:8px;padding:18px 20px;}
+  .gap-panel h3{font-size:14px;color:var(--amber);margin-bottom:8px;}
+  .gap-panel li{font-size:13px;line-height:1.6;color:var(--slate);margin-bottom:4px;}
+  .gap-panel ul{margin:0;padding-left:18px;}
+  footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
+  .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
+  .footer-inner b{color:#D7DEEA;}
+  @media(max-width:640px){
+    .header-inner{flex-wrap:wrap;}
+    nav.primary{gap:14px;font-size:11px;order:3;width:100%;justify-content:flex-start;overflow-x:auto;padding-top:8px;}
+    .wordmark .sub{display:none;}
+    main{padding:0 16px 40px;}
+    .page-hero{padding:16px 16px 24px;}
+    .crumb{padding:14px 16px 0;}
+    .switcher-inner{padding:10px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="mark"><span></span><span></span><span></span><span></span></div>
+      <div class="name">MDCGT</div>
+      <div class="sub">Maryland Data Center Governance Tracker</div>
+    </div>
+    <div class="tagline">Understand. Engage. Shape Our Future.</div>
+    <nav class="primary">
+      <a href="../about.html">About</a>
+      <a href="../about.html#methodology">Methodology</a>
+      <a href="../index.html#counties">Counties</a>
+      <a href="../grid.html">Grid &amp; FERC</a>
+      <a href="#" class="btn-outline">Get Involved</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="switcher">
+  <div class="switcher-inner">
+    <span class="switcher-label">Pilot Counties</span>
+    <a class="switcher-item" href="frederick.html"><span class="dot dot-active"></span>Frederick</a>
+    <a class="switcher-item" href="montgomery.html"><span class="dot dot-active"></span>Montgomery</a>
+    <a class="switcher-item" href="pg.html"><span class="dot dot-active"></span>Prince George's</a>
+    <a class="switcher-item" href="charles.html"><span class="dot dot-active"></span>Charles</a>
+    <span class="switcher-label" style="margin-left:14px;">Also Tracked</span>
+    <a class="switcher-item current" href="calvert.html">Calvert</a>
+  </div>
+</nav>
+
+<div class="crumb"><a href="../index.html">Statewide Board</a> &nbsp;/&nbsp; Calvert County</div>
+
+<div class="page-hero">
+  <div class="hero-top">
+    <h1 class="county-title">Calvert County<span class="not-pilot-badge">NOT A PILOT COUNTY</span></h1>
+    <span class="updated-tag mono">Last updated 2026-08-05</span>
+  </div>
+  <div class="headline-flags">
+    <span class="chip chip--active">Active Proposal</span>
+    <span class="chip chip--outlined">Pause Not Yet Enacted</span>
+  </div>
+  <p class="snapshot-line">Natelli Holdings' <b>"Appeal Digital Park"</b> is a pending proposal in Calvert County. A planned AWS/Constellation involvement was withdrawn on Aug 4, 2026 — worth noting as a live example of a project scaling back rather than expanding. The county has not yet enacted a pause: a 6-month moratorium hearing is scheduled for Aug 18, 2026, but as of this page's last update, nothing has been formally adopted.</p>
+</div>
+
+<main>
+  <div class="layout">
+
+    <div class="stack">
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">Governance Timeline</span>Verified</h2>
+        <div class="timeline">
+          <div class="t-item flag">
+            <div class="t-date">Aug 4, 2026</div>
+            <div class="t-body">AWS/Constellation withdraws from involvement with the Appeal Digital Park proposal.</div>
+          </div>
+          <div class="t-item">
+            <div class="t-date">Aug 18, 2026</div>
+            <div class="t-body">A 6-month moratorium hearing is scheduled — not yet enacted as of this page's last update. This is the item to watch: whether Calvert joins the seven other jurisdictions with an active pause.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">Regional Context</span>Assessment</h2>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">Calvert sits within the Southern Maryland cluster of counties (alongside Charles and St. Mary's) facing developer pressure tied to proximity to power infrastructure — in this region, primarily Calvert Cliffs nuclear plant. This page carries less source depth than the four pilot-county pages; treat entries here as a starting point rather than a full baseline.</p>
+      </div>
+
+    </div>
+
+    <div>
+      <div class="side-panel">
+        <h3>Governance Status</h3>
+        <div class="gov-row"><span class="k">Named proposal</span><span class="v">APPEAL DIGITAL PARK</span></div>
+        <div class="gov-row"><span class="k">AWS/Constellation</span><span class="v">WITHDREW 8/4/26</span></div>
+        <div class="gov-row"><span class="k">Moratorium status</span><span class="v">HEARING PENDING</span></div>
+        <div class="gov-row"><span class="k">Hearing date</span><span class="v">8/18/2026</span></div>
+      </div>
+
+      <div class="side-panel">
+        <h3>Watch Items</h3>
+        <div class="watch-item"><span class="watch-dot"></span>Whether the Aug 18, 2026 hearing results in an enacted moratorium.</div>
+        <div class="watch-item"><span class="watch-dot"></span>What AWS/Constellation's withdrawal means for the project's scope or timeline.</div>
+      </div>
+
+      <div class="gap-panel" style="margin-bottom:20px;">
+        <h3 class="mono">Known Gaps</h3>
+        <ul>
+          <li>This is not a pilot county — a fuller baseline (capacity, economics, environmental review) has not yet been compiled.</li>
+          <li>Project size, MW, and site acreage: not located in current sources.</li>
+          <li>Capacity and economic figures: unknown.</li>
+        </ul>
+      </div>
+
+      <div class="side-panel">
+        <h3>Sources</h3>
+        <div class="source-item"><b>Southern Maryland Chronicle</b></div>
+        <div class="source-item"><b>Statewide Status Board</b> — 8/5/26</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="footer-inner">
+    <div style="max-width:520px;"><b>MDCGT</b> is a civic information project. All data is preliminary, compiled from public sources, and subject to change. This is not legal advice — verify directly with the issuing county or agency before acting on anything here.</div>
+    <div>Preliminary compilation from public sources. Verify with Calvert County government before acting.</div>
+    <div><a href="../index.html" style="text-decoration:none;color:#D7DEEA;">&larr; Back to Statewide Board</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
