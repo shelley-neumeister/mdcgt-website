@@ -297,6 +297,24 @@
   .county-card.severity-active{border-top:4px solid var(--gold);}
   .county-card.severity-quiet{border-top:4px solid var(--line);}
 
+  .county-card-link{text-decoration:none;color:inherit;display:block;}
+  .county-card-link .county-card{cursor:pointer;}
+  .card-view-link{
+    margin-top:2px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--navy);
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .county-card-link:hover .card-view-link{color:var(--gold);}
+  .county-card-link:hover .card-view-link::after{transform:translateX(2px);}
+  .card-view-link::after{content:"→";transition:transform .12s ease;}
+
   .county-name-row{
     display:flex;
     align-items:center;
@@ -530,6 +548,7 @@
     </div>
     <div class="county-grid">
 
+      <a class="county-card-link" href="counties/frederick.html">
       <div class="county-card severity-pause">
         <div class="county-name-row">
           <span class="county-name">Frederick</span>
@@ -540,8 +559,11 @@
           <span class="chip chip--pause">Application Pause</span>
         </div>
         <p class="county-note">Quantum Frederick — 2.4GW, under construction. New-application pause runs through Dec 31, 2026.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
+      <a class="county-card-link" href="counties/montgomery.html">
       <div class="county-card severity-pause">
         <div class="county-name-row">
           <span class="county-name">Montgomery</span>
@@ -552,8 +574,11 @@
           <span class="chip chip--pause">18-Month Moratorium</span>
         </div>
         <p class="county-note">Dickerson Data Center Campus, former coal-plant site on the Potomac. Council passed an 18-month moratorium 11&#8211;0 on Jul 28, 2026, superseding the Executive's 6-month order.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
+      <a class="county-card-link" href="counties/pg.html">
       <div class="county-card severity-pause">
         <div class="county-name-row">
           <span class="county-name">Prince George's</span>
@@ -564,7 +589,9 @@
           <span class="chip chip--pause">2-Year Moratorium</span>
         </div>
         <p class="county-note">Landover Mall/Brightseat, Konterra, Brandywine. Longest moratorium in the state (adopted Jul 7, 2026); LDR-155 is the presumptive off-ramp vehicle.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
     </div>
   </section>
@@ -576,6 +603,7 @@
     </div>
     <div class="county-grid">
 
+      <a class="county-card-link" href="counties/calvert.html">
       <div class="county-card severity-active">
         <div class="county-name-row"><span class="county-name">Calvert</span></div>
         <div class="chip-row">
@@ -583,8 +611,11 @@
           <span class="chip chip--outlined">Pause Not Yet Enacted</span>
         </div>
         <p class="county-note">Natelli Holdings' "Appeal Digital Park" pending; AWS/Constellation withdrew Aug 4, 2026. A 6-month moratorium hearing is scheduled for Aug 18, 2026.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
+      <a class="county-card-link" href="counties/charles.html">
       <div class="county-card severity-active">
         <div class="county-name-row">
           <span class="county-name">Charles</span>
@@ -595,7 +626,9 @@
           <span class="chip chip--contested">Contested — No Formal Pause</span>
         </div>
         <p class="county-note">TeraWulf/Newburg, tied to repowering the retired Morgantown plant with up to 1GW of gas. Zoning amendment sent back to the planning board twice; final Commission vote not yet located.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
       <div class="county-card severity-active">
         <div class="county-name-row"><span class="county-name">St. Mary's</span></div>
