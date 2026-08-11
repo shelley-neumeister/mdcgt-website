@@ -1,1 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDI — Capacity Distribution Index | Maryland–Virginia Prototype v0.1</title>
+<meta name="description" content="A companion instrument to MDCGT. CDI measures how technological infrastructure redistributes the ability to act — not just how much activity occurs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a0a;
+    --paper:#ffffff;
+    --panel:#f6f5f1;
+    --rule:#dedad2;
+    --mute:#6b6b64;
+    --gold:#a1791f;
+    --up:#3d5a3d;
+    --down:#8a3b2b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Archivo', sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--mute);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;
+    height:1px;
+    background:var(--ink);
+    display:inline-block;
+  }
+  a{color:inherit;}
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 28px;
+  }
 
+  /* ===== NAV ===== */
+  nav{
+    border-bottom:1px solid var(--rule);
+    position:sticky;
+    top:0;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(6px);
+    z-index:50;
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+    max-width:1080px;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:1.05rem;
+    letter-spacing:-0.01em;
+  }
+  .brand small{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:0.68rem;
+    color:var(--mute);
+    letter-spacing:0.08em;
+  }
+  .navlinks{
+    display:flex;
+    gap:28px;
+    font-size:0.82rem;
+  }
+  .navlinks a{
+    text-decoration:none;
+    color:var(--mute);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+  }
+  .navlinks a:hover{color:var(--ink); border-bottom-color:var(--ink);}
+  .navlinks .companion{
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    border:1px solid var(--ink);
+    padding:5px 10px;
+  }
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* ===== HERO ===== */
+  header.hero{
+    padding:88px 0 64px;
+    border-bottom:1px solid var(--rule);
+  }
+  header.hero .eyebrow{margin-bottom:26px;}
+  h1.thesis{
+    font-size:clamp(2.1rem, 5.4vw, 3.6rem);
+    font-weight:800;
+    line-height:1.06;
+    max-width:15ch;
+  }
+  h1.thesis em{
+    font-style:normal;
+    color:var(--gold);
+  }
+  .hero-sub{
+    margin-top:22px;
+    max-width:56ch;
+    color:var(--mute);
+    font-size:1.05rem;
+  }
+  .hero-meta{
+    margin-top:36px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--mute);
+  }
+  .hero-meta strong{color:var(--ink); font-weight:600;}
+
+  /* ===== SECTION SCAFFOLD ===== */
+  section{
+    padding:60px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  section.panel{background:var(--panel);}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    margin-bottom:34px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:1.7rem;
+    font-weight:700;
+    margin-top:10px;
+  }
+  .section-note{
+    max-width:34ch;
+    font-size:0.85rem;
+    color:var(--mute);
+    text-align:right;
+  }
+  @media (max-width:640px){ .section-note{ text-align:left; } }
+
+  /* ===== PROBLEM / FLATTEN ===== */
+  .flatten{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border:1px solid var(--rule);
+  }
+  .flatten > div{padding:26px 28px;}
+  .flatten > div:first-child{border-right:1px solid var(--rule);}
+  .flatten h3{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin-bottom:14px;
+    font-weight:600;
+  }
+  .flatten p{margin:0 0 10px; font-size:0.95rem;}
+  .flatten .tag-good{color:var(--up); font-family:'IBM Plex Mono',monospace; font-size:0.82rem;}
+  .flatten .tag-bad{color:var(--down); font-family:'IBM Plex Mono',monospace; font-size:0.82rem;}
+  @media (max-width:640px){
+    .flatten{grid-template-columns:1fr;}
+    .flatten > div:first-child{border-right:none; border-bottom:1px solid var(--rule);}
+  }
+
+  /* ===== DOMAINS ===== */
+  .domain-flow{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--mute);
+    margin-bottom:38px;
+    letter-spacing:0.02em;
+  }
+  .domain-flow span.step{
+    border:1px solid var(--rule);
+    padding:6px 10px;
+    color:var(--ink);
+  }
+  .domain-flow .arrow{color:var(--mute);}
+  .domain-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+  }
+  .domain-card{
+    background:var(--paper);
+    padding:22px 20px;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .domain-card .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--gold);
+  }
+  .domain-card h4{
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:1.02rem;
+    margin:14px 0 8px;
+  }
+  .domain-card p{
+    font-size:0.82rem;
+    color:var(--mute);
+    margin:0;
+  }
+  @media (max-width:860px){ .domain-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .domain-grid{grid-template-columns:1fr;} }
+
+  /* ===== CAPACITY PROFILE BARS ===== */
+  .illustrative-flag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--down);
+    border:1px solid var(--down);
+    padding:5px 10px;
+    margin-bottom:28px;
+  }
+  .profile-table{width:100%; border-collapse:collapse;}
+  .profile-table th{
+    text-align:left;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--mute);
+    font-weight:500;
+    padding:0 0 12px;
+    border-bottom:1px solid var(--rule);
+  }
+  .profile-table td{
+    padding:14px 0;
+    border-bottom:1px solid var(--rule);
+    vertical-align:middle;
+  }
+  .profile-table td.domain-label{
+    font-weight:600;
+    font-size:0.9rem;
+    width:130px;
+  }
+  .bar-row{display:flex; align-items:center; gap:10px;}
+  .bar-track{
+    flex:1;
+    height:14px;
+    background:var(--panel);
+    border:1px solid var(--rule);
+    position:relative;
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;
+    background:var(--ink);
+  }
+  .bar-fill.va{background:var(--mute);}
+  .dir{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    width:16px;
+    text-align:center;
+  }
+  .dir.up{color:var(--up);}
+  .dir.down{color:var(--down);}
+  .conf-badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    border:1px solid var(--rule);
+    padding:1px 6px;
+    color:var(--mute);
+  }
+  .legend-row{
+    display:flex;
+    gap:26px;
+    margin-top:22px;
+    flex-wrap:wrap;
+    font-size:0.78rem;
+    color:var(--mute);
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .legend-row .swatch{
+    display:inline-block;
+    width:12px;height:12px;
+    margin-right:6px;
+    vertical-align:-1px;
+  }
+  .legend-row .swatch.md{background:var(--ink);}
+  .legend-row .swatch.va{background:var(--mute);}
+
+  /* ===== CONFIDENCE SYSTEM ===== */
+  .conf-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+  }
+  .conf-card{background:var(--paper); padding:22px 20px;}
+  .conf-card .letter{
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:1.6rem;
+    color:var(--ink);
+  }
+  .conf-card p{
+    font-size:0.82rem;
+    color:var(--mute);
+    margin:10px 0 0;
+  }
+  @media (max-width:720px){ .conf-grid{grid-template-columns:repeat(2,1fr);} }
+
+  .callout{
+    margin-top:30px;
+    border-left:3px solid var(--gold);
+    padding:4px 0 4px 20px;
+    font-size:0.95rem;
+    color:var(--ink);
+    max-width:62ch;
+  }
+  .callout .mono{color:var(--mute); font-size:0.72rem; display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.08em;}
+
+  /* ===== MECHANISMS ===== */
+  .mech-list{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+  }
+  .mech-row{
+    background:var(--paper);
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:20px;
+    padding:20px 24px;
+    align-items:baseline;
+  }
+  .mech-row .term{
+    font-family:'Archivo', sans-serif;
+    font-weight:700;
+    font-size:0.98rem;
+  }
+  .mech-row .def{
+    font-size:0.9rem;
+    color:var(--mute);
+  }
+  @media (max-width:640px){
+    .mech-row{grid-template-columns:1fr; gap:6px;}
+  }
+
+  /* ===== ROADMAP / NEXT ===== */
+  .roadmap{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--rule);
+    border:1px solid var(--rule);
+  }
+  .phase{background:var(--paper); padding:22px 20px;}
+  .phase.active{background:var(--ink); color:var(--paper);}
+  .phase .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    opacity:0.7;
+  }
+  .phase h4{
+    font-family:'Archivo', sans-serif;
+    font-size:0.98rem;
+    margin:10px 0 8px;
+  }
+  .phase p{font-size:0.8rem; margin:0; opacity:0.85;}
+  @media (max-width:860px){ .roadmap{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .roadmap{grid-template-columns:1fr;} }
+
+  .next-artifact{
+    margin-top:30px;
+    border:1px solid var(--ink);
+    padding:26px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .next-artifact .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--mute);
+  }
+  .next-artifact h3{font-size:1.15rem; margin-top:6px;}
+  .next-artifact .status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    border:1px solid var(--rule);
+    padding:6px 12px;
+    color:var(--mute);
+    white-space:nowrap;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{padding:40px 0 60px;}
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer p{
+    font-size:0.78rem;
+    color:var(--mute);
+    max-width:60ch;
+    margin:0;
+  }
+  footer .mono-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--mute);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">CDI <small>CAPACITY DISTRIBUTION INDEX</small></div>
+    <div class="navlinks">
+      <a href="#problem">Problem</a>
+      <a href="#domains">Domains</a>
+      <a href="#profile">Capacity Profile</a>
+      <a href="#confidence">Confidence</a>
+      <a href="#mechanisms">Mechanisms</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="../index.html" class="companion">↳ Back to MDCGT</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Maryland–Virginia Prototype v0.1</div>
+    <h1 class="thesis">Growth is a number.<br>Capacity is <em>who gets to act.</em></h1>
+    <p class="hero-sub">The Capacity Distribution Index studies infrastructure development — starting with data centers — as a redistribution of capability among corporations, government, communities, workers, households, infrastructure systems, and future residents. A project can expand several capacities at once while quietly constraining others. Conventional measures flatten that into "growth." CDI keeps the arrows.</p>
+    <div class="hero-meta">
+      <span><strong>7</strong> domains tested</span>
+      <span><strong>26</strong> MVP indicators</span>
+      <span><strong>2</strong> states, 3 geographic scales</span>
+      <span><strong>0</strong> overall score — by design</span>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">The Problem</div>
+        <h2>Activity measures tell you how much happened.<br>They don't tell you who gained the ability to act.</h2>
+      </div>
+      <p class="section-note">Investment, tax revenue, employment, and electricity demand are real — and routinely reported. What's missing is the shift underneath them.</p>
+    </div>
+    <div class="flatten">
+      <div>
+        <h3>What conventional measures show</h3>
+        <p><span class="tag-good">↑</span> Corporate expansion capacity</p>
+        <p><span class="tag-good">↑</span> Government technical capacity</p>
+        <p><span class="tag-good">↑</span> Grid capacity, construction employment</p>
+        <p>Reported as: <strong>"$X billion in investment, Y jobs created."</strong></p>
+      </div>
+      <div>
+        <h3>What goes unmeasured alongside it</h3>
+        <p><span class="tag-bad">↓</span> Available transmission headroom</p>
+        <p><span class="tag-bad">↓</span> Land-use flexibility</p>
+        <p><span class="tag-bad">↓</span> System legibility</p>
+        <p>Community bargaining power: <span class="mono" style="color:var(--mute)">↔ unresolved, rarely asked</span></p>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="mono">Core proposition</span>
+      None of these movements automatically make a project good or bad. The pattern itself — who gains, who loses, what dependency is created, what remains possible later — is the finding.
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="domains">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">What CDI Measures</div>
+        <h2>Seven capacity domains, one agency layer running through all of them</h2>
+      </div>
+      <p class="section-note">Agency is not an eighth domain — it's the lens applied across all seven, from first visibility to final remedy.</p>
+    </div>
+
+    <div class="domain-flow">
+      <span class="step">Visibility</span><span class="arrow">→</span>
+      <span class="step">Comprehension</span><span class="arrow">→</span>
+      <span class="step">Participation</span><span class="arrow">→</span>
+      <span class="step">Contestability</span><span class="arrow">→</span>
+      <span class="step">Bargaining</span><span class="arrow">→</span>
+      <span class="step">Accountability</span><span class="arrow">→</span>
+      <span class="step">Remedy</span>
+    </div>
+
+    <div class="domain-grid">
+      <div class="domain-card">
+        <span class="num">01</span>
+        <div><h4>Corporate</h4><p>Development pipeline, permitting pathway, incentive access, siting concentration.</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">02</span>
+        <div><h4>Government</h4><p>Dedicated staffing, technical planning capability, regulatory coverage, interagency coordination.</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">03</span>
+        <div><h4>Community</h4><p>Early notice, participation timing, independent expertise access, contestability, remedy.</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">04</span>
+        <div><h4>Human &amp; Workforce</h4><p>Permanent employment intensity, training depth, local capture, career transferability.</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">05</span>
+        <div><h4>Infrastructure</h4><p>Load share, capacity consumed vs. added, household cost exposure.</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">06</span>
+        <div><h4>Context</h4><p>Project inventory completeness, system legibility — can the system be reconstructed at all?</p></div>
+      </div>
+      <div class="domain-card">
+        <span class="num">07</span>
+        <div><h4>Future</h4><p>Land-use reversibility, infrastructure and fiscal lock-in for whoever comes next.</p></div>
+      </div>
+      <div class="domain-card" style="background:var(--panel);">
+        <span class="num" style="color:var(--mute)">—</span>
+        <div><h4 style="color:var(--mute)">Deliberately excluded (for now)</h4><p>Water use, emissions, noise, biodiversity — real, but treated as inputs to the seven domains above rather than 17 more of them. Otherwise v1 becomes v-never.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="profile">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Primary Output</div>
+        <h2>A Capacity Profile, not a leaderboard</h2>
+      </div>
+      <p class="section-note">Never "Maryland: 74, Virginia: 61." That's ESPN standings for zoning nerds. Every domain carries level, direction, distribution, and confidence together.</p>
+    </div>
+
+    <div class="illustrative-flag">⚠ Illustrative only — not findings. Scoring requires the assembled indicator dataset.</div>
+
+    <table class="profile-table">
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>Maryland — shaping the rules mid-expansion</th>
+          <th>Virginia — governing a mature concentration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="domain-label">Corporate</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div><span class="dir up">↑</span><span class="conf-badge">B</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:82%"></div></div><span class="dir" style="color:var(--mute)">→</span><span class="conf-badge">A</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Government</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><span class="dir up">↑</span><span class="conf-badge">B</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:60%"></div></div><span class="dir up">↑</span><span class="conf-badge">A</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Community</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="dir" style="color:var(--mute)">?</span><span class="conf-badge">C</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:35%"></div></div><span class="dir up">↑</span><span class="conf-badge">B</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Human</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:35%"></div></div><span class="dir" style="color:var(--mute)">?</span><span class="conf-badge">C</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:48%"></div></div><span class="dir" style="color:var(--mute)">→</span><span class="conf-badge">B</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Infrastructure</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><span class="dir down">↓</span><span class="conf-badge">B</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:55%"></div></div><span class="dir down">↓</span><span class="conf-badge">B</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Context</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><span class="dir up">↑</span><span class="conf-badge">D</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:45%"></div></div><span class="dir up">↑</span><span class="conf-badge">C</span></div></td>
+        </tr>
+        <tr>
+          <td class="domain-label">Future</td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill" style="width:38%"></div></div><span class="dir" style="color:var(--mute)">?</span><span class="conf-badge">D</span></div></td>
+          <td><div class="bar-row"><div class="bar-track"><div class="bar-fill va" style="width:38%"></div></div><span class="dir" style="color:var(--mute)">?</span><span class="conf-badge">D</span></div></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="legend-row">
+      <span><span class="swatch md"></span>Maryland</span>
+      <span><span class="swatch va"></span>Virginia</span>
+      <span>↑ improving &nbsp; → stable &nbsp; ↓ declining &nbsp; ? uncertain</span>
+      <span>A–D = evidence confidence, strongest to weakest</span>
+    </div>
+
+    <div class="callout">
+      <span class="mono">Why this comparison isn't apples to apples — and shouldn't be</span>
+      Virginia enters with an established industry (JLARC estimates ~74,000 jobs and $9.1B in annual state GDP) and governance built around a mature market — 2026 site-assessment and cost-allocation rules already in force. Maryland is still writing the rules mid-expansion. The real question isn't who's "winning" — it's what capacities emerge when a jurisdiction governs a mature concentration versus one still shaping the terms while growth is underway.
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="confidence">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Evidence Confidence</div>
+        <h2>A 75-C is not a 75-A</h2>
+      </div>
+      <p class="section-note">The same grading discipline MDCGT uses for VERIFIED / ASSESSMENT / UNKNOWN, applied to indicator-level scoring.</p>
+    </div>
+    <div class="conf-grid">
+      <div class="conf-card"><div class="letter">A</div><p>Directly measured, from an authoritative source — a filing, docket, or statute.</p></div>
+      <div class="conf-card"><div class="letter">B</div><p>Strong proxy, or corroborated across multiple sources.</p></div>
+      <div class="conf-card"><div class="letter">C</div><p>Incomplete or reconstructed evidence — assembled, not confirmed.</p></div>
+      <div class="conf-card"><div class="letter">D</div><p>Exploratory qualitative judgment. Labeled as a judgment call, not a fact.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="mechanisms">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">The Underlying Claim</div>
+        <h2>CDI isn't measuring benefits and harms. It's measuring changes in the ability to act.</h2>
+      </div>
+      <p class="section-note">Five relational mechanisms — the bridge between Capacity Exchange and CDI's empirical instrument.</p>
+    </div>
+    <div class="mech-list">
+      <div class="mech-row"><div class="term">Capacity creation</div><div class="def">An actor can do something it previously could not.</div></div>
+      <div class="mech-row"><div class="term">Capacity consumption</div><div class="def">A finite capability is used up — transmission headroom, land, water.</div></div>
+      <div class="mech-row"><div class="term">Capacity transfer</div><div class="def">One actor's expanded discretion reduces another's.</div></div>
+      <div class="mech-row"><div class="term">Capacity dependency</div><div class="def">An actor gains a capability contingent on another actor continuing to provide something.</div></div>
+      <div class="mech-row"><div class="term">Capacity lock-in</div><div class="def">Present action narrows the choices actually available later.</div></div>
+    </div>
+    <div class="callout">
+      <span class="mono">The testable proposition</span>
+      A public cannot meaningfully exercise agency over a system it cannot see as a system. Context Capacity — legibility, not just data availability — may be CDI's most important contribution.
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="roadmap">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Expansion Path</div>
+        <h2>Phase 1 first. Build the ontology before the rankings.</h2>
+      </div>
+    </div>
+    <div class="roadmap">
+      <div class="phase active">
+        <div class="tag">Phase 1 — now</div>
+        <h4>Maryland / Virginia</h4>
+        <p>Ontology, indicator definitions, data schema, two project case studies.</p>
+      </div>
+      <div class="phase">
+        <div class="tag">Phase 2</div>
+        <h4>Within-state comparison</h4>
+        <p>Loudoun vs. Henrico vs. Prince William; Frederick vs. PG vs. Charles/Montgomery.</p>
+      </div>
+      <div class="phase">
+        <div class="tag">Phase 3</div>
+        <h4>Contrasting states</h4>
+        <p>Selected for different governance models — not partisan identity.</p>
+      </div>
+      <div class="phase">
+        <div class="tag">Phase 4</div>
+        <h4>Other infrastructure</h4>
+        <p>Test whether the ontology transfers: fabs, warehouses, renewables, storage.</p>
+      </div>
+    </div>
+
+    <div class="next-artifact">
+      <div>
+        <div class="label">First research artifact</div>
+        <h3>26-Row CDI Indicator Register</h3>
+      </div>
+      <div class="status">Not yet built →</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>CDI</strong> is a prototype civic-research instrument, developed alongside the Maryland Data Center Governance Tracker (MDCGT). Illustrative scores on this page are placeholders for methodology review, not findings. Weighting domains is deliberately avoided in v1 — averaging in political philosophy wearing a fake mustache.</p>
+    <p class="mono-note">v0.1 · Prototype</p>
+  </div>
+</footer>
+
+</body>
+</html>
