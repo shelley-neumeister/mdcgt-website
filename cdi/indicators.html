@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDI Indicator Register | Capacity Distribution Index</title>
+<meta name="description" content="The 26-indicator MVP register for the Capacity Distribution Index — measure, source, geographic level, frequency, data status, and confidence for each indicator across seven domains.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a0a;
+    --paper:#ffffff;
+    --panel:#f6f5f1;
+    --rule:#dedad2;
+    --mute:#6b6b64;
+    --gold:#a1791f;
+    --up:#3d5a3d;
+    --down:#8a3b2b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Archivo', sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--mute);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px;
+    height:1px;
+    background:var(--ink);
+    display:inline-block;
+  }
+  a{color:inherit;}
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    border-bottom:1px solid var(--rule);
+    position:sticky;
+    top:0;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(6px);
+    z-index:50;
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+    max-width:1180px;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-family:'Archivo', sans-serif;
+    font-weight:800;
+    font-size:1.05rem;
+    letter-spacing:-0.01em;
+  }
+  .brand small{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:500;
+    font-size:0.68rem;
+    color:var(--mute);
+    letter-spacing:0.08em;
+  }
+  .navlinks{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    font-size:0.82rem;
+  }
+  .navlinks a{
+    text-decoration:none;
+    color:var(--mute);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+  }
+  .navlinks a:hover{color:var(--ink); border-bottom-color:var(--ink);}
+  .navlinks a.current{color:var(--ink); border-bottom-color:var(--gold);}
+  .navlinks .companion{
+    color:var(--ink);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    border:1px solid var(--ink);
+    padding:5px 10px;
+    text-decoration:none;
+  }
+  @media (max-width:820px){ .navlinks a:not(.companion){display:none;} }
+
+  /* ===== HERO ===== */
+  header.hero{
+    padding:64px 0 44px;
+    border-bottom:1px solid var(--rule);
+  }
+  header.hero .eyebrow{margin-bottom:22px;}
+  h1.thesis{
+    font-size:clamp(1.9rem, 4.6vw, 3rem);
+    font-weight:800;
+    line-height:1.08;
+    max-width:20ch;
+  }
+  .hero-sub{
+    margin-top:20px;
+    max-width:70ch;
+    color:var(--mute);
+    font-size:1.02rem;
+  }
+  .hero-meta{
+    margin-top:30px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--mute);
+  }
+  .hero-meta strong{color:var(--ink); font-weight:600;}
+
+  /* ===== LEGEND ===== */
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border:1px solid var(--rule);
+    margin-top:36px;
+  }
+  .legend > div{
+    flex:1;
+    min-width:180px;
+    padding:18px 20px;
+    border-right:1px solid var(--rule);
+  }
+  .legend > div:last-child{border-right:none;}
+  .legend .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:3px 9px;
+    display:inline-block;
+    border:1px solid var(--ink);
+  }
+  .legend .tag.filled{background:var(--ink); color:var(--paper);}
+  .legend .tag.outline{color:var(--mute); border-color:var(--rule);}
+  .legend p{
+    font-size:0.8rem;
+    color:var(--mute);
+    margin:10px 0 0;
+  }
+  @media (max-width:700px){
+    .legend{flex-direction:column;}
+    .legend > div{border-right:none; border-bottom:1px solid var(--rule);}
+  }
+
+  /* ===== DOMAIN SECTION ===== */
+  .domain-block{
+    padding:48px 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .domain-block:nth-child(even){background:var(--panel);}
+  .domain-head{
+    display:flex;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  .domain-head .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--gold);
+  }
+  .domain-head h2{
+    font-size:1.35rem;
+    font-weight:700;
+  }
+  .domain-head .count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--mute);
+    margin-left:auto;
+  }
+
+  table.indicators{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.85rem;
+  }
+  table.indicators th{
+    text-align:left;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--mute);
+    font-weight:500;
+    padding:0 12px 10px 0;
+    border-bottom:1px solid var(--rule);
+    white-space:nowrap;
+  }
+  table.indicators td{
+    padding:14px 12px 14px 0;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  table.indicators td.n{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--mute);
+    width:26px;
+  }
+  table.indicators td.name{
+    font-weight:600;
+    max-width:190px;
+  }
+  table.indicators td.measure{
+    color:var(--mute);
+    max-width:230px;
+  }
+  table.indicators td.source{
+    color:var(--mute);
+    font-size:0.8rem;
+    white-space:nowrap;
+  }
+  table.indicators td.level{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    white-space:nowrap;
+  }
+  table.indicators td.freq{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--mute);
+    white-space:nowrap;
+  }
+  .status-chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.04em;
+    padding:3px 9px;
+    white-space:nowrap;
+    display:inline-block;
+    border:1px solid var(--ink);
+  }
+  .status-chip.yes{background:var(--ink); color:var(--paper);}
+  .status-chip.partial{border-color:var(--gold); color:var(--gold);}
+  .status-chip.weak{border-color:var(--rule); color:var(--mute);}
+  .status-chip.no{border-color:var(--down); color:var(--down);}
+  .conf{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--mute);
+    white-space:nowrap;
+  }
+  .conf.high{color:var(--ink); font-weight:600;}
+
+  @media (max-width:900px){
+    table.indicators thead{display:none;}
+    table.indicators, table.indicators tbody, table.indicators tr, table.indicators td{display:block; width:100%;}
+    table.indicators tr{
+      border:1px solid var(--rule);
+      margin-bottom:14px;
+      padding:14px 16px;
+      background:var(--paper);
+    }
+    table.indicators td{
+      border-bottom:none;
+      padding:4px 0;
+    }
+    table.indicators td.name{font-size:1rem;}
+    table.indicators td::before{
+      content: attr(data-label);
+      display:block;
+      font-family:'IBM Plex Mono', monospace;
+      font-size:0.62rem;
+      text-transform:uppercase;
+      letter-spacing:0.06em;
+      color:var(--mute);
+      margin-bottom:2px;
+    }
+    table.indicators td.n{display:none;}
+  }
+
+  /* ===== OMITTED CALLOUT ===== */
+  .callout{
+    margin:32px 0 0;
+    border-left:3px solid var(--gold);
+    padding:4px 0 4px 20px;
+    font-size:0.92rem;
+    color:var(--ink);
+    max-width:70ch;
+  }
+  .callout .mono{color:var(--mute); font-size:0.7rem; display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.08em;}
+
+  /* ===== FOOTER ===== */
+  footer{padding:40px 0 60px;}
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+    max-width:1180px;
+  }
+  footer p{
+    font-size:0.78rem;
+    color:var(--mute);
+    max-width:64ch;
+    margin:0;
+  }
+  footer .mono-note{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--mute);
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">CDI <small>CAPACITY DISTRIBUTION INDEX</small></div>
+    <div class="navlinks">
+      <a href="index.html">Overview</a>
+      <a href="index.html#profile">Capacity Profile</a>
+      <a href="#register" class="current">Indicator Register</a>
+      <a href="../index.html" class="companion">↳ Back to MDCGT</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">First Research Artifact</div>
+    <h1 class="thesis">The 26-Row Indicator Register</h1>
+    <p class="hero-sub">Version 1 tests seven domains through 26 measurable indicators. Each row names what's actually being measured, where the evidence comes from, at what geographic level, how often it updates, whether the data currently exists, and how confident we can be in it. This is the ontology before the rankings — the Maryland/Virginia Evidence Matrix comes next, once these 26 rows are populated with real sources.</p>
+    <div class="hero-meta">
+      <span><strong>26</strong> indicators</span>
+      <span><strong>7</strong> domains</span>
+      <span><strong>0</strong> weighted — averaging domains is deferred to v2</span>
+      <span><strong>MVP</strong> v0.1, not yet populated with live data</span>
+    </div>
+
+    <div class="legend" id="register">
+      <div>
+        <span class="tag filled">YES</span>
+        <p>Data currently exists in a usable public form.</p>
+      </div>
+      <div>
+        <span class="tag outline" style="color:var(--gold); border-color:var(--gold);">PARTIAL</span>
+        <p>Some data exists but is incomplete, scattered, or requires reconstruction.</p>
+      </div>
+      <div>
+        <span class="tag outline">WEAK</span>
+        <p>Data exists in principle but current sourcing is thin or unreliable.</p>
+      </div>
+      <div>
+        <span class="tag outline" style="color:var(--down); border-color:var(--down);">NO</span>
+        <p>No public dataset yet — this is a CDI construction, not a lookup.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DOMAIN 1: CORPORATE -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">01</span>
+      <h2>Corporate Capacity</h2>
+      <span class="count">5 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td class="name" data-label="Indicator">Development pipeline</td><td class="measure" data-label="MVP measure">Proposed / approved / operating MW and projects</td><td class="source" data-label="Likely source">Local planning, utilities</td><td class="level" data-label="Level">Local / State</td><td class="freq" data-label="Frequency">Quarterly</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">2</td><td class="name" data-label="Indicator">Permitting pathway complexity</td><td class="measure" data-label="MVP measure">Required approvals + median stages</td><td class="source" data-label="Likely source">State / local codes</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">3</td><td class="name" data-label="Indicator">Incentive access</td><td class="measure" data-label="MVP measure">Value / duration / qualification of incentives</td><td class="source" data-label="Likely source">Commerce / tax agencies</td><td class="level" data-label="Level">State</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">4</td><td class="name" data-label="Indicator">Infrastructure access</td><td class="measure" data-label="MVP measure">Ability / time to secure utility service</td><td class="source" data-label="Likely source">Utility filings</td><td class="level" data-label="Level">Utility</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">5</td><td class="name" data-label="Indicator">Development concentration</td><td class="measure" data-label="MVP measure">MW / acre / facilities concentrated geographically</td><td class="source" data-label="Likely source">Planning + GIS</td><td class="level" data-label="Level">Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOMAIN 2: GOVERNMENT -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">02</span>
+      <h2>Government Capacity</h2>
+      <span class="count">5 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">6</td><td class="name" data-label="Indicator">Dedicated government staffing</td><td class="measure" data-label="MVP measure">FTEs primarily addressing large-load / DC issues</td><td class="source" data-label="Likely source">Agency / local budgets</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">7</td><td class="name" data-label="Indicator">Technical planning capability</td><td class="measure" data-label="MVP measure">Presence of energy / infrastructure forecasting expertise</td><td class="source" data-label="Likely source">Agency records</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">8</td><td class="name" data-label="Indicator">Regulatory authority coverage</td><td class="measure" data-label="MVP measure">Major impacts with identifiable regulator</td><td class="source" data-label="Likely source">Statutes / regulations</td><td class="level" data-label="Level">State</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">9</td><td class="name" data-label="Indicator">Interagency coordination</td><td class="measure" data-label="MVP measure">Formal coordination mechanisms</td><td class="source" data-label="Likely source">State / local documents</td><td class="level" data-label="Level">State</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">10</td><td class="name" data-label="Indicator">Cost-risk protection</td><td class="measure" data-label="MVP measure">Mechanisms preventing cross-subsidy / stranded costs</td><td class="source" data-label="Likely source">PSC / SCC tariffs</td><td class="level" data-label="Level">Utility / State</td><td class="freq" data-label="Frequency">Case-based</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOMAIN 3: COMMUNITY -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">03</span>
+      <h2>Community Capacity</h2>
+      <span class="count">5 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">11</td><td class="name" data-label="Indicator">Early public notice</td><td class="measure" data-label="MVP measure">Notice before major commitments</td><td class="source" data-label="Likely source">Planning procedures</td><td class="level" data-label="Level">Local</td><td class="freq" data-label="Frequency">Project</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">12</td><td class="name" data-label="Indicator">Participation timing</td><td class="measure" data-label="MVP measure">Participation before / after material decisions</td><td class="source" data-label="Likely source">Project records</td><td class="level" data-label="Level">Local</td><td class="freq" data-label="Frequency">Project</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">13</td><td class="name" data-label="Indicator">Community expertise access</td><td class="measure" data-label="MVP measure">Independent technical assistance / resources</td><td class="source" data-label="Likely source">Programs / budgets</td><td class="level" data-label="Level">Local / State</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Low–Med</td></tr>
+        <tr><td class="n">14</td><td class="name" data-label="Indicator">Contestability</td><td class="measure" data-label="MVP measure">Available appeal / challenge pathways</td><td class="source" data-label="Likely source">Law + procedure</td><td class="level" data-label="Level">Local / State</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes</span></td><td class="conf high" data-label="Confidence">High</td></tr>
+        <tr><td class="n">15</td><td class="name" data-label="Indicator">Remedy capacity</td><td class="measure" data-label="MVP measure">Enforceable mitigation / complaint / compensation paths</td><td class="source" data-label="Likely source">Permits / law</td><td class="level" data-label="Level">Project</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOMAIN 4: HUMAN -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">04</span>
+      <h2>Human &amp; Workforce Capacity</h2>
+      <span class="count">4 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">16</td><td class="name" data-label="Indicator">Permanent employment intensity</td><td class="measure" data-label="MVP measure">Permanent jobs per 100 MW / $1B investment</td><td class="source" data-label="Likely source">Incentives / company filings</td><td class="level" data-label="Level">Project</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">17</td><td class="name" data-label="Indicator">Training depth</td><td class="measure" data-label="MVP measure">Apprenticeships, credentials, structured training</td><td class="source" data-label="Likely source">Labor / education</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">18</td><td class="name" data-label="Indicator">Local workforce capture</td><td class="measure" data-label="MVP measure">Share of labor / jobs going to residents</td><td class="source" data-label="Likely source">Project / labor data</td><td class="level" data-label="Level">Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip weak">Weak</span></td><td class="conf" data-label="Confidence">Low</td></tr>
+        <tr><td class="n">19</td><td class="name" data-label="Indicator">Career transferability</td><td class="measure" data-label="MVP measure">Credentials / skills useful outside DC sector</td><td class="source" data-label="Likely source">Program review</td><td class="level" data-label="Level">Program</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOMAIN 5: INFRASTRUCTURE -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">05</span>
+      <h2>Infrastructure Capacity</h2>
+      <span class="count">3 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">20</td><td class="name" data-label="Indicator">Load share</td><td class="measure" data-label="MVP measure">Data-center / large-load share of system peak / load</td><td class="source" data-label="Likely source">Utilities / PJM</td><td class="level" data-label="Level">Utility</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med–High</td></tr>
+        <tr><td class="n">21</td><td class="name" data-label="Indicator">Capacity consumed vs. added</td><td class="measure" data-label="MVP measure">Incremental load vs. generation / T&amp;D additions</td><td class="source" data-label="Likely source">PJM / utilities</td><td class="level" data-label="Level">Utility</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip yes">Yes / Partial</span></td><td class="conf" data-label="Confidence">Med–High</td></tr>
+        <tr><td class="n">22</td><td class="name" data-label="Indicator">Household cost exposure</td><td class="measure" data-label="MVP measure">Costs shifted / protected from residential customers</td><td class="source" data-label="Likely source">PSC / SCC cases</td><td class="level" data-label="Level">Utility</td><td class="freq" data-label="Frequency">Rate case</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DOMAIN 6: CONTEXT -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">06</span>
+      <h2>Context Capacity</h2>
+      <span class="count">2 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">23</td><td class="name" data-label="Indicator">Project inventory completeness</td><td class="measure" data-label="MVP measure">Known projects appearing in a centralized public inventory</td><td class="source" data-label="Likely source">Government + audit</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Quarterly</td><td data-label="Exists?"><span class="status-chip weak">Weak</span></td><td class="conf" data-label="Confidence">Low–Med</td></tr>
+        <tr><td class="n">24</td><td class="name" data-label="Indicator">System legibility</td><td class="measure" data-label="MVP measure">Can you trace project → owner → MW → permits → utility → incentives → status?</td><td class="source" data-label="Likely source">Cross-source audit</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Semiannual</td><td data-label="Exists?"><span class="status-chip no">No</span></td><td class="conf" data-label="Confidence">CDI-created</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <span class="mono">Why context is almost entirely a CDI construction</span>
+      No government dataset records "meaningful opportunity to intervene," and none tracks whether a system can be reconstructed end to end. The effort required to trace a single project through every institutional layer is itself part of what's being measured.
+    </div>
+  </div>
+</section>
+
+<!-- DOMAIN 7: FUTURE -->
+<section class="domain-block">
+  <div class="wrap">
+    <div class="domain-head">
+      <span class="idx">07</span>
+      <h2>Future Capacity</h2>
+      <span class="count">2 indicators</span>
+    </div>
+    <table class="indicators">
+      <thead><tr><th>#</th><th>Indicator</th><th>MVP measure</th><th>Likely source</th><th>Level</th><th>Frequency</th><th>Exists?</th><th>Confidence</th></tr></thead>
+      <tbody>
+        <tr><td class="n">25</td><td class="name" data-label="Indicator">Land-use reversibility</td><td class="measure" data-label="MVP measure">Difficulty of converting committed sites to future uses</td><td class="source" data-label="Likely source">GIS / plans / project docs</td><td class="level" data-label="Level">Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+        <tr><td class="n">26</td><td class="name" data-label="Indicator">Infrastructure / fiscal lock-in</td><td class="measure" data-label="MVP measure">Long-lived obligations dependent on projected DC demand / revenue</td><td class="source" data-label="Likely source">Utility / fiscal filings</td><td class="level" data-label="Level">State / Local</td><td class="freq" data-label="Frequency">Annual</td><td data-label="Exists?"><span class="status-chip partial">Partial</span></td><td class="conf" data-label="Confidence">Med</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="callout" style="border-left-color:var(--down); margin-top:0;">
+      <span class="mono">Deliberately not in v1</span>
+      Water use, emissions, tax revenue, noise, property values, emergency-response requirements, and biodiversity all matter — but they're treated as inputs to the seven domains above, not as 17 additional domains. National rankings, an overall CDI score, predictive AI, and a full public survey instrument are also deferred until the ontology holds up under real data.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>CDI Indicator Register v0.1.</strong> Exists / Confidence values above are the working assessment from the initial prototype document, not yet independently verified against live sources. The next step is populating this register with an actual Maryland/Virginia Evidence Matrix, citation by citation.</p>
+    <p class="mono-note">Companion to MDCGT · v0.1</p>
+  </div>
+</footer>
+
+</body>
+</html>
