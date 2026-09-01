@@ -45,7 +45,6 @@
   a{color:inherit;}
   img{max-width:100%;display:block;}
 
-  /* ---------- Mark ---------- */
   .mark{
     width:34px;height:34px;
     display:grid;
@@ -60,7 +59,6 @@
   .mark span:nth-child(3){background:#C7CDD8;}
   .mark span:nth-child(4){background:var(--red);}
 
-  /* ---------- Header ---------- */
   header.site{
     background:var(--navy);
     border-bottom:1px solid rgba(255,255,255,0.08);
@@ -133,7 +131,6 @@
     .tagline{display:block;}
   }
 
-  /* ---------- Hero ---------- */
   .hero{
     background:linear-gradient(180deg,var(--navy) 0%, var(--ink2) 100%);
     color:#EDF1F8;
@@ -166,7 +163,6 @@
     margin-top:18px;
   }
 
-  /* legend */
   .legend{
     margin-top:32px;
     display:grid;
@@ -210,7 +206,6 @@
   }
   .legend-note b{color:var(--gold);}
 
-  /* ---------- Stat strip ---------- */
   .stat-strip{
     max-width:1280px;
     margin:-30px auto 0;
@@ -248,7 +243,6 @@
   .stat-card.amber{border-left-color:var(--amber);}
   .stat-card.navy{border-left-color:var(--navy);}
 
-  /* ---------- Sections ---------- */
   main{max-width:1280px;margin:0 auto;padding:56px 28px 20px;}
 
   .section-head{
@@ -367,7 +361,6 @@
   }
   .county-note.muted{color:var(--mist);font-style:italic;}
 
-  /* ---------- Callout ---------- */
   .callout{
     background:#fff;
     border:1px solid var(--line);
@@ -386,7 +379,6 @@
   }
   .callout p + p{margin-top:12px;}
 
-  /* ---------- Method strip ---------- */
   .method-strip{
     background:var(--ink2);
     color:#DCE3EF;
@@ -413,7 +405,6 @@
     white-space:nowrap;
   }
 
-  /* ---------- Footer ---------- */
   footer.site{
     background:var(--navy);
     color:#9AA6BC;
@@ -467,7 +458,7 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="eyebrow mono">Statewide Status Board · Updated 2026-08-05</div>
+    <div class="eyebrow mono">Statewide Status Board · Updated 2026-09-01</div>
     <h1>Every Maryland county's data&nbsp;center fight, in one place.</h1>
     <p class="lede">A jurisdiction-by-jurisdiction record of proposals, moratoria, bans, and pending legislation across all 24 Maryland counties and Baltimore City — built from public filings, county records, and local reporting, and clearly marked by how confident we are in each claim.</p>
 
@@ -494,15 +485,15 @@
 <div class="stat-strip">
   <div class="stat-grid">
     <div class="stat-card">
-      <div class="num">12<span class="mono" style="font-size:16px;color:var(--mist);"> / 24</span></div>
+      <div class="num">13<span class="mono" style="font-size:16px;color:var(--mist);"> / 24</span></div>
       <div class="label">Jurisdictions with documented activity</div>
     </div>
     <div class="stat-card maroon">
       <div class="num">1</div>
-      <div class="label">Permanent ban — Harford County (Jun 2026)</div>
+      <div class="label">Permanent ban — Harford County (Jun 2026), legal durability contested</div>
     </div>
     <div class="stat-card amber">
-      <div class="num">8</div>
+      <div class="num">9</div>
       <div class="label">Temporary pauses / moratoria in effect</div>
     </div>
     <div class="stat-card navy">
@@ -517,7 +508,7 @@
   <section class="region">
     <div class="section-head">
       <h2>Western Maryland</h2>
-      <span class="count mono">3 jurisdictions · 0 active</span>
+      <span class="count mono">3 jurisdictions · 0 active · 1 pause</span>
     </div>
     <div class="county-grid">
 
@@ -533,10 +524,10 @@
         <p class="county-note">Also crossed by the MARL transmission line.</p>
       </div>
 
-      <div class="county-card severity-quiet">
+      <div class="county-card severity-pause">
         <div class="county-name-row"><span class="county-name">Washington</span></div>
-        <div class="chip-row"><span class="chip chip--outlined">No Activity Found</span></div>
-        <p class="county-note muted">No documented proposal, pause, or ban in current sources.</p>
+        <div class="chip-row"><span class="chip chip--pause">Pause Enacted</span></div>
+        <p class="county-note"><b>Correction, 9/1/26:</b> previously listed as "No Activity Found" — that was wrong. Washington County approved a yearlong moratorium around June 2026. No specific named proposal located yet; full profile not yet built.</p>
       </div>
 
     </div>
@@ -558,8 +549,9 @@
         <div class="chip-row">
           <span class="chip chip--active">Active Proposal</span>
           <span class="chip chip--pause">Application Pause</span>
+          <span class="chip chip--contested">Pause Trigger Uncertain</span>
         </div>
-        <p class="county-note">Quantum Frederick — 2.4GW, under construction. New-application pause runs through Dec 31, 2026.</p>
+        <p class="county-note">Quantum Frederick — 2.4GW, under construction. Application pause runs through Dec 31, 2026 — but its trigger condition, the state impact report, has missed its own deadline with no new date set.</p>
         <div class="card-view-link">View full profile</div>
       </div>
       </a>
@@ -574,7 +566,7 @@
           <span class="chip chip--active">Active Proposal</span>
           <span class="chip chip--pause">18-Month Moratorium</span>
         </div>
-        <p class="county-note">Dickerson Data Center Campus, former coal-plant site on the Potomac. Council passed an 18-month moratorium 11&#8211;0 on Jul 28, 2026, superseding the Executive's 6-month order.</p>
+        <p class="county-note">Dickerson Data Center Campus, former coal-plant site on the Potomac. Council passed an 18-month moratorium 11&#8211;0 on Jul 28, 2026, plus a same-day companion zoning bill adding future limitations and safeguards.</p>
         <div class="card-view-link">View full profile</div>
       </div>
       </a>
@@ -589,7 +581,7 @@
           <span class="chip chip--active">Active Proposal</span>
           <span class="chip chip--pause">2-Year Moratorium</span>
         </div>
-        <p class="county-note">Landover Mall/Brightseat, Konterra, Brandywine. Longest moratorium in the state (adopted Jul 7, 2026); LDR-155 is the presumptive off-ramp vehicle.</p>
+        <p class="county-note">Landover Mall/Brightseat, Konterra, Brandywine. Longest moratorium in the state; LDR-155 is the presumptive off-ramp. Council Chair has said on record she'd prefer a full ban.</p>
         <div class="card-view-link">View full profile</div>
       </div>
       </a>
@@ -626,7 +618,7 @@
           <span class="chip chip--active">Active Proposal</span>
           <span class="chip chip--contested">Contested — No Formal Pause</span>
         </div>
-        <p class="county-note">TeraWulf/Newburg, tied to repowering the retired Morgantown plant with up to 1GW of gas. Zoning amendment sent back to the planning board twice; final Commission vote not yet located.</p>
+        <p class="county-note">TeraWulf/Newburg, tied to repowering the retired Morgantown plant with up to 1GW of gas. Zoning amendment sent back to the planning board twice; final Commission vote still not located as of 9/1/26.</p>
         <div class="card-view-link">View full profile</div>
       </div>
       </a>
@@ -637,7 +629,7 @@
           <span class="chip chip--active">Anticipatory Opposition</span>
           <span class="chip chip--outlined">No Landed Proposal</span>
         </div>
-        <p class="county-note">Named alongside Calvert and Charles as facing developer pressure. Commissioners have stated preemptive opposition, but no specific proposal is on record yet.</p>
+        <p class="county-note">Named alongside Calvert and Charles as facing developer pressure. Now confirmed directly by the county's own communications director: zero proposals are on record, only preemptive commissioner opposition. Full profile expected this week.</p>
       </div>
 
     </div>
@@ -656,20 +648,26 @@
           <span class="chip chip--active">Active Proposal</span>
           <span class="chip chip--pause">Pause Enacted</span>
         </div>
-        <p class="county-note">Proposal at a vacant Social Security Administration building, Woodlawn.</p>
+        <p class="county-note">Proposal at a vacant Social Security Administration building, Woodlawn. Full profile expected this week.</p>
       </div>
 
       <div class="county-card severity-pause">
         <div class="county-name-row"><span class="county-name">Baltimore City</span></div>
         <div class="chip-row"><span class="chip chip--pause">Pause Enacted</span></div>
-        <p class="county-note muted">No specific named proposal found.</p>
+        <p class="county-note muted">No specific named proposal found. Full profile expected this week.</p>
       </div>
 
+      <a class="county-card-link" href="counties/harford.html">
       <div class="county-card severity-ban">
         <div class="county-name-row"><span class="county-name">Harford</span></div>
-        <div class="chip-row"><span class="chip chip--ban">Permanent Ban</span></div>
-        <p class="county-note">First permanent data center ban in Maryland (enacted June 2026), adopted after rejecting a temporary moratorium in favor of something stronger. Driving proposal unknown.</p>
+        <div class="chip-row">
+          <span class="chip chip--ban">Permanent Ban</span>
+          <span class="chip chip--contested">Legal Durability Contested</span>
+        </div>
+        <p class="county-note">First permanent data center ban in Maryland (7&#8211;0, Jun 2026) — preemptive, no named project. The Baltimore Sun's own reporting is headlined "the law might not hold up"; even supporters have flagged its language as legally vulnerable.</p>
+        <div class="card-view-link">View full profile</div>
       </div>
+      </a>
 
       <div class="county-card severity-pause">
         <div class="county-name-row"><span class="county-name">Carroll</span></div>
@@ -680,13 +678,13 @@
       <div class="county-card severity-pause">
         <div class="county-name-row"><span class="county-name">Howard</span></div>
         <div class="chip-row"><span class="chip chip--pause">Pause Enacted</span></div>
-        <p class="county-note muted">No specific named proposal found.</p>
+        <p class="county-note muted">No specific named proposal found. Full profile expected this week.</p>
       </div>
 
       <div class="county-card severity-quiet">
         <div class="county-name-row"><span class="county-name">Anne Arundel</span></div>
         <div class="chip-row"><span class="chip chip--outlined">No Activity Found</span></div>
-        <p class="county-note">Flagged as a notable gap given the county's size and proximity to BWI, Baltimore, and DC — worth direct verification rather than treating as confirmed quiet.</p>
+        <p class="county-note">Flagged as a notable gap given the county's size and proximity to BWI, Baltimore, and DC — direct verification underway, full profile expected this week.</p>
       </div>
 
     </div>
@@ -758,14 +756,14 @@
 
   <div class="callout">
     <div class="eyebrow mono">Cross-Cutting Pattern — Assessment</div>
-    <p>Every documented proposal or pause sits on the I&#8209;270/I&#8209;95/Baltimore&#8211;Washington corridor or the Southern Maryland peninsula near power infrastructure — Calvert Cliffs nuclear, the former Morgantown and Chalk Point fossil sites.</p>
-    <p>The entire Eastern Shore (aside from Queen Anne's pause, with no named project) and all of Western Maryland show no hosting activity — yet Western Maryland carries new transmission infrastructure (the Mid-Atlantic Resiliency Link) built to serve demand elsewhere. Infrastructure burden without hosting benefit, concentrated in the counties with the least documented say in the matter.</p>
+    <p>Every documented proposal or pause sits on the I&#8209;270/I&#8209;95/Baltimore&#8211;Washington corridor or the Southern Maryland peninsula near power infrastructure — Calvert Cliffs nuclear, the former Morgantown and Chalk Point fossil sites. Washington County's newly-corrected pause is the first exception to this pattern found so far — worth a closer look once its full profile is built.</p>
+    <p>The Eastern Shore and most of Western Maryland still show no hosting activity — yet Western Maryland carries new transmission infrastructure (the Mid-Atlantic Resiliency Link) built to serve demand elsewhere. Infrastructure burden without hosting benefit, concentrated in the counties with the least documented say in the matter.</p>
   </div>
 
   <div class="method-strip">
     <div>
       <h3>How this board is built</h3>
-      <p>"No documented activity found" means no proposal, pause, or ban surfaced in our current public search — it is not a confirmed absence. We treat the quiet list as lower-confidence than the active list, which is source-cited throughout.</p>
+      <p>"No documented activity found" means no proposal, pause, or ban surfaced in our current public search — it is not a confirmed absence. Washington County's correction this update is a live example of why: a gap in search results is a gap in our search, not necessarily a gap in reality.</p>
     </div>
     <a href="about.html">Read our full methodology &rarr;</a>
   </div>
@@ -781,7 +779,7 @@
       <b>Sources:</b> Southern Maryland Chronicle · Bay Journal · Maryland Matters · CBS Baltimore · The Baltimore Banner · Baltimore Sun · Route Fifty · Maryland Reporter · county government sites
     </div>
     <div>
-      Board dated 2026-08-05. Individual county pages updated on a rolling monthly cadence.
+      Board dated 2026-09-01 — update in progress. Frederick, Montgomery, Prince George's, Charles, and Harford refreshed this week; Baltimore County, Baltimore City, Howard, Anne Arundel, and St. Mary's still pending.
     </div>
   </div>
 </footer>
