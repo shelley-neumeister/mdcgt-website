@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calvert County — MDCGT | Maryland Data Center Governance Tracker</title>
-<meta name="description" content="Calvert County data center governance status: the Appeal Digital Park proposal and a pending moratorium hearing.">
+<meta name="description" content="Calvert County data center governance status: the Appeal Digital Park proposal and an enacted six-month moratorium.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -92,6 +92,7 @@
   .gap-panel h3{font-size:14px;color:var(--amber);margin-bottom:8px;}
   .gap-panel li{font-size:13px;line-height:1.6;color:var(--slate);margin-bottom:4px;}
   .gap-panel ul{margin:0;padding-left:18px;}
+  .diff-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(185,122,15,0.08);border:1px solid rgba(185,122,15,0.3);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--amber);margin-bottom:18px;}
   footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
   .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
   .footer-inner b{color:#D7DEEA;}
@@ -135,6 +136,7 @@
     <a class="switcher-item" href="charles.html"><span class="dot dot-active"></span>Charles</a>
     <span class="switcher-label" style="margin-left:14px;">Also Tracked</span>
     <a class="switcher-item current" href="calvert.html">Calvert</a>
+    <a class="switcher-item" href="harford.html">Harford</a>
   </div>
 </nav>
 
@@ -143,13 +145,13 @@
 <div class="page-hero">
   <div class="hero-top">
     <h1 class="county-title">Calvert County<span class="not-pilot-badge">NOT A PILOT COUNTY</span></h1>
-    <span class="updated-tag mono">Last updated 2026-08-05</span>
+    <span class="updated-tag mono">Last updated 2026-09-01</span>
   </div>
   <div class="headline-flags">
     <span class="chip chip--active">Active Proposal</span>
-    <span class="chip chip--outlined">Pause Not Yet Enacted</span>
+    <span class="chip chip--pause">6-Month Moratorium Enacted</span>
   </div>
-  <p class="snapshot-line">Natelli Holdings' <b>"Appeal Digital Park"</b> is a pending proposal in Calvert County. A planned AWS/Constellation involvement was withdrawn on Aug 4, 2026 — worth noting as a live example of a project scaling back rather than expanding. The county has not yet enacted a pause: a 6-month moratorium hearing is scheduled for Aug 18, 2026, but as of this page's last update, nothing has been formally adopted.</p>
+  <p class="snapshot-line">Natelli Holdings' <b>"Appeal Digital Park"</b> remains a pending proposal. The county's Aug 18, 2026 hearing did not just consider a pause — it enacted one: the Board of County Commissioners voted <b>unanimously</b> for a six-month moratorium on data center site plan approvals, effective Aug 28, 2026. This page had not been checked since that hearing; the status shown previously ("pause not yet enacted") was two weeks stale.</p>
 </div>
 
 <main>
@@ -157,23 +159,38 @@
 
     <div class="stack">
 
+      <div class="diff-badge mono">◆ Material change since 2026-08-05 — moratorium enacted, chip status flipped.</div>
+
       <div class="panel">
         <h2><span class="eyebrow-mini">Governance Timeline</span>Verified</h2>
         <div class="timeline">
-          <div class="t-item flag">
+          <div class="t-item">
             <div class="t-date">Aug 4, 2026</div>
-            <div class="t-body">AWS/Constellation withdraws from involvement with the Appeal Digital Park proposal.</div>
+            <div class="t-body">AWS/Constellation withdraws from involvement with the Appeal Digital Park proposal, citing infrastructure pipeline priorities.</div>
+          </div>
+          <div class="t-item flag">
+            <div class="t-date">Aug 18, 2026</div>
+            <div class="t-body">Board of County Commissioners holds a public hearing — hearing room packed to standing room only, more than 30 speakers — and votes <b>unanimously</b> to enact a six-month moratorium on data center site plan approvals. County will not accept new site plan applications during the moratorium period.</div>
           </div>
           <div class="t-item">
-            <div class="t-date">Aug 18, 2026</div>
-            <div class="t-body">A 6-month moratorium hearing is scheduled — not yet enacted as of this page's last update. This is the item to watch: whether Calvert joins the seven other jurisdictions with an active pause.</div>
+            <div class="t-date">Aug 28, 2026</div>
+            <div class="t-body">Moratorium becomes effective, per Title 4 of the Land Use Article of the Maryland Annotated Code.</div>
+          </div>
+          <div class="t-item">
+            <div class="t-date">Future meeting, undated</div>
+            <div class="t-body">Commissioners expected to discuss potential changes to the Calvert County Zoning Ordinance regarding data centers as a permitted use. No date set yet.</div>
           </div>
         </div>
       </div>
 
       <div class="panel">
+        <h2><span class="eyebrow-mini">Political Context</span>Assessment</h2>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">This moratorium follows directly from the June 2026 primary, in which three incumbent commissioners who opposed a data center moratorium were defeated. The proposal had originally gained support from county commissioners after residents first learned of it in February; by August, the political composition of the board had shifted enough to pass a pause unanimously. Resident sentiment reported at the hearing leaned toward wanting the moratorium "stronger," not weaker — worth watching whether that pressure shapes the zoning ordinance discussion still to come.</p>
+      </div>
+
+      <div class="panel">
         <h2><span class="eyebrow-mini">Regional Context</span>Assessment</h2>
-        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">Calvert sits within the Southern Maryland cluster of counties (alongside Charles and St. Mary's) facing developer pressure tied to proximity to power infrastructure — in this region, primarily Calvert Cliffs nuclear plant. This page carries less source depth than the four pilot-county pages; treat entries here as a starting point rather than a full baseline.</p>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">Calvert sits within the Southern Maryland cluster of counties (alongside Charles and St. Mary's) facing developer pressure tied to proximity to power infrastructure — in this region, primarily Calvert Cliffs nuclear plant. This page still carries less source depth than the four pilot-county pages; treat entries here as a working record rather than a full baseline.</p>
       </div>
 
     </div>
@@ -183,14 +200,16 @@
         <h3>Governance Status</h3>
         <div class="gov-row"><span class="k">Named proposal</span><span class="v">APPEAL DIGITAL PARK</span></div>
         <div class="gov-row"><span class="k">AWS/Constellation</span><span class="v">WITHDREW 8/4/26</span></div>
-        <div class="gov-row"><span class="k">Moratorium status</span><span class="v">HEARING PENDING</span></div>
-        <div class="gov-row"><span class="k">Hearing date</span><span class="v">8/18/2026</span></div>
+        <div class="gov-row"><span class="k">Moratorium status</span><span class="v" style="color:var(--amber);">ENACTED 8/18/26</span></div>
+        <div class="gov-row"><span class="k">Effective date</span><span class="v">8/28/2026</span></div>
+        <div class="gov-row"><span class="k">Vote</span><span class="v">UNANIMOUS</span></div>
       </div>
 
       <div class="side-panel">
         <h3>Watch Items</h3>
-        <div class="watch-item"><span class="watch-dot"></span>Whether the Aug 18, 2026 hearing results in an enacted moratorium.</div>
-        <div class="watch-item"><span class="watch-dot"></span>What AWS/Constellation's withdrawal means for the project's scope or timeline.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Date of the future meeting on zoning ordinance changes — not yet scheduled.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Status of the Appeal Digital Park application itself now that new site plans can't be accepted during the moratorium.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Whether resident pressure for a "stronger" measure resurfaces when the zoning discussion begins.</div>
       </div>
 
       <div class="gap-panel" style="margin-bottom:20px;">
@@ -199,13 +218,17 @@
           <li>This is not a pilot county — a fuller baseline (capacity, economics, environmental review) has not yet been compiled.</li>
           <li>Project size, MW, and site acreage: not located in current sources.</li>
           <li>Capacity and economic figures: unknown.</li>
+          <li>Exact text of the moratorium ordinance: not yet reviewed.</li>
         </ul>
       </div>
 
       <div class="side-panel">
         <h3>Sources</h3>
-        <div class="source-item"><b>Southern Maryland Chronicle</b></div>
-        <div class="source-item"><b>Statewide Status Board</b> — 8/5/26</div>
+        <div class="source-item"><b>calvertcountymd.gov</b> — newsflash 3201, official Data Centers page</div>
+        <div class="source-item"><b>Southern Maryland News Net</b> — 8/21/26</div>
+        <div class="source-item"><b>somdnews.com</b> — 8/18/26, 8/12/26</div>
+        <div class="source-item"><b>WJLA</b> — 8/18/26</div>
+        <div class="source-item"><b>The BayNet</b> — 8/4/26</div>
       </div>
     </div>
 
