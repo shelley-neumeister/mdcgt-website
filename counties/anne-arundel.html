@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prince George's County — MDCGT | Maryland Data Center Governance Tracker</title>
-<meta name="description" content="Prince George's County data center governance status: the state's longest moratorium, LDR-155, and Council leadership positioning.">
+<title>Anne Arundel County — MDCGT | Maryland Data Center Governance Tracker</title>
+<meta name="description" content="Anne Arundel County data center status: no new hyperscale proposal found, but a pre-existing federal/defense data center cluster near Fort Meade.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -52,14 +52,10 @@
   .page-hero{max-width:1280px;margin:0 auto;padding:18px 28px 30px;}
   .hero-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;}
   .county-title{font-size:clamp(32px,5vw,50px);font-weight:800;line-height:1;}
-  .pilot-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.06em;background:var(--gold);color:var(--navy);padding:4px 10px;border-radius:3px;margin-left:12px;vertical-align:middle;}
+  .not-pilot-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:0.06em;background:transparent;color:var(--mist);border:1px solid var(--mist);padding:4px 10px;border-radius:3px;margin-left:12px;vertical-align:middle;}
   .updated-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mist);}
   .headline-flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
   .chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.04em;padding:5px 11px;border-radius:20px;text-transform:uppercase;line-height:1.4;white-space:nowrap;}
-  .chip--active{background:var(--gold);color:var(--navy);}
-  .chip--pause{background:var(--amber);color:#fff;}
-  .chip--ban{background:var(--maroon);color:#fff;}
-  .chip--contested{background:transparent;color:var(--red);border:1px solid var(--red);}
   .chip--outlined{background:transparent;color:var(--mist);border:1px solid var(--mist);}
   .chip--verified{background:var(--green);color:#fff;}
   .snapshot-line{font-size:16px;line-height:1.65;color:var(--slate);max-width:880px;margin-top:18px;}
@@ -80,16 +76,6 @@
   .claim-status.unknown{background:transparent;color:var(--mist);border:1px solid var(--mist);}
   .claim-text{font-size:14.5px;color:var(--slate);line-height:1.55;}
   .claim-src{font-size:11.5px;color:var(--mist);margin-top:3px;font-style:italic;}
-  .cap-row{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);}
-  .cap-row:last-child{border-bottom:none;padding-bottom:0;}
-  .cap-row:first-child{padding-top:0;}
-  .cap-label{font-weight:600;color:var(--navy);font-size:14px;min-width:110px;flex:none;}
-  .cap-note{font-size:13px;color:var(--slate);line-height:1.55;text-align:left;flex:1;}
-  .cap-rating{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.05em;padding:3px 9px;border-radius:20px;text-transform:uppercase;white-space:nowrap;flex:none;}
-  .r-good{background:rgba(31,122,77,0.12);color:var(--green);}
-  .r-moderate{background:rgba(185,122,15,0.12);color:var(--amber);}
-  .r-strained{background:rgba(158,43,37,0.12);color:var(--red);}
-  .r-unknown{background:transparent;color:var(--mist);border:1px solid var(--mist);}
   .side-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:20px;}
   .side-panel h3{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);}
   .gov-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;}
@@ -106,7 +92,6 @@
   .gap-panel h3{font-size:14px;color:var(--amber);margin-bottom:8px;}
   .gap-panel li{font-size:13px;line-height:1.6;color:var(--slate);margin-bottom:4px;}
   .gap-panel ul{margin:0;padding-left:18px;}
-  .diff-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(185,122,15,0.08);border:1px solid rgba(185,122,15,0.3);border-radius:6px;padding:10px 14px;font-size:13px;color:var(--amber);margin-bottom:18px;}
   footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
   .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
   .footer-inner b{color:#D7DEEA;}
@@ -146,7 +131,7 @@
     <span class="switcher-label">Pilot Counties</span>
     <a class="switcher-item" href="frederick.html"><span class="dot dot-active"></span>Frederick</a>
     <a class="switcher-item" href="montgomery.html"><span class="dot dot-active"></span>Montgomery</a>
-    <a class="switcher-item current" href="pg.html"><span class="dot"></span>Prince George's</a>
+    <a class="switcher-item" href="pg.html"><span class="dot dot-active"></span>Prince George's</a>
     <a class="switcher-item" href="charles.html"><span class="dot dot-active"></span>Charles</a>
     <span class="switcher-label" style="margin-left:14px;">Also Tracked</span>
     <a class="switcher-item" href="calvert.html">Calvert</a>
@@ -154,23 +139,23 @@
     <a class="switcher-item" href="baltimore-county.html">Baltimore Co.</a>
     <a class="switcher-item" href="baltimore-city.html">Baltimore City</a>
     <a class="switcher-item" href="howard.html">Howard</a>
-    <a class="switcher-item" href="anne-arundel.html">Anne Arundel</a>
+    <a class="switcher-item current" href="anne-arundel.html">Anne Arundel</a>
     <a class="switcher-item" href="st-marys.html">St. Mary's</a>
   </div>
 </nav>
 
-<div class="crumb"><a href="../index.html">Statewide Board</a> &nbsp;/&nbsp; Prince George's County</div>
+<div class="crumb"><a href="../index.html">Statewide Board</a> &nbsp;/&nbsp; Anne Arundel County</div>
 
 <div class="page-hero">
   <div class="hero-top">
-    <h1 class="county-title">Prince George's County<span class="pilot-badge">PILOT COUNTY</span></h1>
-    <span class="updated-tag mono">Last updated 2026-09-01 · Tracker run 4</span>
+    <h1 class="county-title">Anne Arundel County<span class="not-pilot-badge">NOT A PILOT COUNTY</span></h1>
+    <span class="updated-tag mono">Last updated 2026-09-01 · Tracker run 1 (first direct verification)</span>
   </div>
   <div class="headline-flags">
-    <span class="chip chip--active">Active — Multiple Proposals</span>
-    <span class="chip chip--pause">2-Year Moratorium — Longest In State</span>
+    <span class="chip chip--outlined">No New Proposal Found</span>
+    <span class="chip chip--verified">Existing Federal/Defense Cluster</span>
   </div>
-  <p class="snapshot-line">Prince George's holds the <b>longest moratorium of any Maryland jurisdiction</b> — two years, adopted Jul 7, 2026 — while three separate proposals move through the pipeline: Landover Mall/Brightseat, Konterra (Laurel), and a Brandywine study area. LDR-155 remains the presumptive off-ramp vehicle with no hearing date located. New this run: on-record positioning from Council leadership suggests the politics around any future legislation may be less accommodating than the moratorium alone implies.</p>
+  <p class="snapshot-line">This county sat as an unexplained gap on the statewide board for weeks — its size and proximity to BWI, Baltimore, and DC made "no activity found" look more like a search failure than a real finding. Direct verification this update turned up a real, structural explanation: <b>no new hyperscale commercial proposal has surfaced</b>, but the county already hosts federal and defense-related data center infrastructure tied to the Fort Meade corridor — a fundamentally different category from the controversial commercial developments driving every other county on this board.</p>
 </div>
 
 <main>
@@ -178,38 +163,21 @@
 
     <div class="stack">
 
-      <div class="diff-badge mono">◆ No change to the moratorium or LDR-155 status — but new political context this run.</div>
-
       <div class="panel">
-        <h2><span class="eyebrow-mini">Governance Status</span>Verified</h2>
-        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin-bottom:14px;">The two-year moratorium (adopted Jul 7, 2026) remains in effect — the longest of any pause or ban currently on record statewide. LDR-155 has no new hearing date located and is still the presumptive off-ramp vehicle out of the moratorium. Executive Order No. 1-2026 formally supports forthcoming Task Force recommendations.</p>
+        <h2><span class="eyebrow-mini">What The Gap Actually Is</span>Assessment</h2>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">Every other quiet county on this board is quiet because nothing has been proposed there yet. Anne Arundel is different: it likely already has more data center infrastructure than most active counties combined — it's just older, federal, and never went through the kind of contested local zoning fight that produces the news coverage this tracker runs on. That's a meaningfully different reason to be "quiet," and worth distinguishing from counties where the silence really might just mean nothing has happened.</p>
       </div>
 
       <div class="panel">
-        <h2><span class="eyebrow-mini">Council Leadership Positioning</span>New This Run</h2>
+        <h2><span class="eyebrow-mini">Existing Infrastructure</span>Assessment — Lower-Tier Source</h2>
         <div class="claim">
-          <div class="claim-top"><span class="claim-status verified">Verified — Direct Quote</span></div>
-          <div class="claim-text">Council Chair Krystal Oriadha, who sponsored the two-year moratorium, has stated on record that she personally supports a <b>full ban</b> and considers the two-year pause a compromise, not her actual position: "I support a full ban. That's what I've always supported." Relevant to how she is likely to engage with any by-right carve-out legislation, including LDR-155.</div>
-          <div class="claim-src">The Banner, 7/8/26; Inside Climate News, 7/10/26</div>
+          <div class="claim-top"><span class="claim-status assessment">Assessment</span></div>
+          <div class="claim-text">A third-party data center mapping project lists an "Anne Arundel Defense Cloud Campus" among facilities within the Fort Meade cluster, alongside NSA Fort Meade, DISA Fort Meade Consolidated Data Center, and the DoD Fort Meade Consolidated Data Center — all within a few miles of Patuxent Research Refuge. Maryland is listed as having 57 mapped data center facilities statewide, totaling roughly 5.6 GW of demand.</div>
+          <div class="claim-src">"More Than Just Parks" data center tracker — a third-party mapping project, not a government source. Treat as a lead requiring direct verification, not a confirmed fact.</div>
         </div>
         <div class="claim">
-          <div class="claim-top"><span class="claim-status verified">Verified</span></div>
-          <div class="claim-text">Council member Jolene Ivey, who helped pass the county's 2020 data-center tax exemptions and initially favored fast-track approval of the Landover proposal, has shifted to supporting "strict guidelines" and now wants to <b>repeal those same tax incentives</b>. A genuine reversal among sitting Council leadership, not just rhetoric.</div>
-          <div class="claim-src">The Banner, 6/17/26 &amp; 6/21/26</div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2><span class="eyebrow-mini">Current Footprint</span>Verified</h2>
-        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">Three named sites: <b>Landover Mall/Brightseat</b>, <b>Konterra</b> (Laurel — TPC Data Centers), and the <b>Brandywine</b> study area. Full site-level detail (acreage, MW, developer terms) is held in the original county baseline and not repeated in this run's diff — flagged as a gap below rather than restated from memory.</p>
-      </div>
-
-      <div class="panel">
-        <h2><span class="eyebrow-mini">Capacity</span>Assessment</h2>
-        <div class="cap-row">
-          <div class="cap-label">Water / Grid / Wastewater / Roads</div>
-          <div class="cap-note">All unknown — unchanged from the prior run. ~46% of Maryland was in extreme drought as of late June 2026, including Prince George's County specifically. Relevant to any future water-capacity claims for this county.</div>
-          <span class="cap-rating r-unknown">Unknown</span>
+          <div class="claim-top"><span class="claim-status unknown">Unknown</span></div>
+          <div class="claim-text">No county-level zoning fight, moratorium, or ban has surfaced for Anne Arundel in current search — consistent with this being existing federal infrastructure rather than a new contested commercial proposal.</div>
         </div>
       </div>
 
@@ -217,42 +185,32 @@
 
     <div>
       <div class="side-panel">
-        <h3>Governance Status</h3>
-        <div class="gov-row"><span class="k">Mechanism</span><span class="v">2-YR MORATORIUM</span></div>
-        <div class="gov-row"><span class="k">Adopted</span><span class="v">7/7/2026</span></div>
-        <div class="gov-row"><span class="k">Off-ramp vehicle</span><span class="v">LDR-155</span></div>
-        <div class="gov-row"><span class="k">LDR-155 hearing</span><span class="v">NOT SCHEDULED</span></div>
-        <div class="gov-row"><span class="k">Council chair position</span><span class="v">FAVORS FULL BAN</span></div>
-        <div class="gov-row"><span class="k">Task Force</span><span class="v">EO NO. 1-2026</span></div>
+        <h3>Status</h3>
+        <div class="gov-row"><span class="k">New commercial proposal</span><span class="v">NONE FOUND</span></div>
+        <div class="gov-row"><span class="k">Governance action</span><span class="v">NONE FOUND</span></div>
+        <div class="gov-row"><span class="k">Existing infrastructure</span><span class="v" style="color:var(--green);">LIKELY, FEDERAL/DEFENSE</span></div>
+        <div class="gov-row"><span class="k">Confidence</span><span class="v">LOW-MODERATE</span></div>
       </div>
 
       <div class="side-panel">
         <h3>Watch Items</h3>
-        <div class="watch-item"><span class="watch-dot"></span>Council action on LDR-155.</div>
-        <div class="watch-item"><span class="watch-dot"></span>Whether Ivey formally introduces tax-incentive repeal legislation.</div>
-        <div class="watch-item"><span class="watch-dot"></span>The county's brownfield definition, still under discussion.</div>
-        <div class="watch-item"><span class="watch-dot"></span>WSSC's position on watershed impact.</div>
-        <div class="watch-item"><span class="watch-dot"></span>Konterra grandfathering status under the moratorium.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Whether any new commercial hyperscale proposal surfaces, separate from the existing federal cluster.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Direct confirmation of the "Anne Arundel Defense Cloud Campus" claim from a primary source — not yet verified beyond the mapping project that surfaced it.</div>
       </div>
 
       <div class="gap-panel" style="margin-bottom:20px;">
         <h3 class="mono">Known Gaps</h3>
         <ul>
-          <li>Site-level detail for Landover Mall/Brightseat, Konterra, and Brandywine: held in the original baseline, not restated here.</li>
-          <li>Capacity figures across water, grid, wastewater, roads: unknown.</li>
-          <li>Economic figures (jobs, tax revenue): not located.</li>
-          <li>Status of any Ivey tax-repeal bill: not yet introduced or not yet found.</li>
+          <li>Federal/defense facility claims sourced from a single third-party mapping project — needs primary-source confirmation.</li>
+          <li>No county government statement located on data center policy either way.</li>
+          <li>This remains a first-run profile with real uncertainty, not a settled finding.</li>
         </ul>
       </div>
 
       <div class="side-panel">
         <h3>Sources</h3>
-        <div class="source-item"><b>princegeorgescountymd.gov</b></div>
-        <div class="source-item"><b>The Banner</b> — 6/17/26, 6/21/26, 7/8/26</div>
-        <div class="source-item"><b>Inside Climate News</b> — 7/10/26</div>
-        <div class="source-item"><b>Spotlight PA</b> — 7/10/26</div>
-        <div class="source-item"><b>Slate</b> — 8/26</div>
-        <div class="source-item"><b>Maryland Matters</b> — 6/24/26 (drought context)</div>
+        <div class="source-item"><b>More Than Just Parks</b> — data center tracker, Maryland</div>
+        <div class="source-item"><b>Maryland Matters</b> — 4/21/26 (Peña-Melnyk, D-PG &amp; Anne Arundel, on RELIEF Act)</div>
       </div>
     </div>
 
@@ -262,7 +220,7 @@
 <footer class="site">
   <div class="footer-inner">
     <div style="max-width:520px;"><b>MDCGT</b> is a civic information project. All data is preliminary, compiled from public sources, and subject to change. This is not legal advice — verify directly with the issuing county or agency before acting on anything here.</div>
-    <div>Preliminary compilation from public sources. Verify with Prince George's County government before acting.</div>
+    <div>Preliminary compilation from public sources. Verify with Anne Arundel County government before acting.</div>
     <div><a href="../index.html" style="text-decoration:none;color:#D7DEEA;">&larr; Back to Statewide Board</a></div>
   </div>
 </footer>
