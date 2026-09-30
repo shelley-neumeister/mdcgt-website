@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-State Policy Observatory — MDCGT | Maryland Data Center Governance Tracker</title>
+<meta name="description" content="Side-by-side tracker of data center governance policy in Maryland, Virginia, Pennsylvania, West Virginia and Texas, with a Prince George's County regional focus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --navy:#101E33;--ink2:#1B2C4A;--paper:#F5F7FA;--card:#FFFFFF;--gold:#E8B21E;
+    --red:#9E2B25;--maroon:#6B1A1A;--green:#1F7A4D;--amber:#B97A0F;--slate:#33415C;--mist:#8A97AD;--line:#E2E7EF;
+    --cyan:#1D6F86;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--slate);font-family:'Work Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Big Shoulders',sans-serif;color:var(--navy);margin:0;letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  .mark{width:34px;height:34px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;border-radius:4px;overflow:hidden;flex:none;}
+  .mark span:nth-child(1){background:var(--gold);}
+  .mark span:nth-child(2){background:var(--ink2);}
+  .mark span:nth-child(3){background:#C7CDD8;}
+  .mark span:nth-child(4){background:var(--red);}
+  header.site{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:1000;}
+  .header-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:18px;}
+  .wordmark{display:flex;align-items:center;gap:12px;flex:none;}
+  .wordmark .name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:0.02em;line-height:1;}
+  .wordmark .sub{font-size:11.5px;color:#B8C2D6;line-height:1.3;border-left:1px solid rgba(255,255,255,0.2);padding-left:12px;max-width:150px;}
+  .tagline{flex:1;text-align:center;color:var(--gold);font-family:'Big Shoulders',sans-serif;font-weight:600;font-size:16px;letter-spacing:0.03em;display:none;}
+  nav.primary{display:flex;align-items:center;gap:26px;font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:#D7DEEA;text-transform:uppercase;}
+  nav.primary a{text-decoration:none;}
+  nav.primary a:hover{color:#fff;}
+  nav.primary a.current{color:var(--gold);}
+  .btn-outline{border:1px solid var(--gold);color:var(--gold) !important;padding:8px 14px;border-radius:3px;white-space:nowrap;}
+  .btn-outline:hover{background:var(--gold);color:var(--navy) !important;}
+  @media(min-width:980px){.tagline{display:block;}}
+  .crumb{max-width:1280px;margin:0 auto;padding:16px 28px 0;font-size:12px;color:var(--mist);}
+  .crumb a{text-decoration:none;color:var(--mist);}
+  .crumb a:hover{color:var(--navy);}
+
+  .page-hero{max-width:1280px;margin:0 auto;padding:18px 28px 26px;}
+  .hero-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;}
+  .page-title{font-size:clamp(30px,4.6vw,48px);font-weight:800;line-height:1.02;max-width:760px;}
+  .updated-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mist);}
+  .headline-flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.04em;padding:5px 11px;border-radius:20px;text-transform:uppercase;line-height:1.4;white-space:nowrap;}
+  .chip--pending{background:var(--amber);color:#fff;}
+  .chip--outlined{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .chip--contested{background:transparent;color:var(--red);border:1px solid var(--red);}
+  .snapshot-line{font-size:16px;line-height:1.7;color:var(--slate);max-width:900px;margin-top:18px;}
+
+  main{max-width:1280px;margin:0 auto;padding:0 28px 60px;}
+
+  .draft-note{background:rgba(232,178,30,0.1);border:1px solid rgba(185,122,15,0.35);border-radius:8px;padding:14px 18px;font-size:13.5px;line-height:1.6;color:#6E4A08;margin-bottom:24px;}
+  .draft-note b{color:#5A3C05;}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:8px;}
+  .panel-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;}
+  .panel-head h2{font-size:20px;font-weight:800;}
+  .eyebrow-mini{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--mist);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+
+  /* Controls */
+  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;padding:18px 20px;}
+  .ctl label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--mist);margin-bottom:6px;}
+  .ctl select,.ctl input[type=search]{width:100%;font:inherit;font-size:14px;color:var(--navy);background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:8px 10px;}
+  .ctl select:focus,.ctl input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .weights{border-top:1px solid var(--line);padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .weight-row{display:flex;flex-direction:column;gap:4px;font-size:13px;}
+  .weight-row .top{display:flex;justify-content:space-between;font-weight:600;color:var(--navy);}
+  .weight-row .top span:last-child{font-family:'IBM Plex Mono',monospace;color:var(--mist);}
+  .weight-row input[type=range]{width:100%;accent-color:var(--navy);}
+  .weight-help{font-size:12px;color:var(--mist);line-height:1.5;grid-column:1/-1;}
+
+  /* Map */
+  .map-wrap{margin-top:24px;overflow:hidden;}
+  .zoom-btns{display:flex;flex-wrap:wrap;gap:6px;}
+  .zbtn{font:inherit;font-size:12px;font-weight:600;background:var(--paper);color:var(--navy);border:1px solid var(--line);border-radius:4px;padding:6px 10px;cursor:pointer;}
+  .zbtn:hover{border-color:var(--navy);}
+  .zbtn.focus{background:var(--gold);border-color:var(--gold);}
+  #map{width:100%;height:420px;background:#E8ECF2;}
+  @media(max-width:640px){#map{height:320px;}}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;padding:10px 20px;font-size:12px;border-top:1px solid var(--line);color:var(--slate);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .pin{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(16,30,51,0.45);}
+  .leaflet-popup-content{margin:12px 14px;font-family:'Work Sans',sans-serif;}
+  .pop-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--mist);}
+  .pop-name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:18px;color:var(--navy);margin:2px 0 6px;}
+  .pop-line{font-size:12px;color:var(--slate);margin:2px 0;}
+  .pop-btn{margin-top:8px;width:100%;font:inherit;font-size:12px;font-weight:600;background:var(--navy);color:#fff;border:none;border-radius:4px;padding:6px;cursor:pointer;}
+
+  /* Spotlight */
+  .spotlight{margin-top:24px;background:var(--navy);color:#D7DEEA;border-radius:8px;padding:20px 22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-left:5px solid var(--gold);}
+  .spotlight h3{color:#fff;font-size:22px;}
+  .spotlight p{font-size:14px;line-height:1.65;margin:6px 0 0;max-width:820px;}
+  .spotlight .eyebrow-mini{color:var(--gold);}
+  .spot-btns{display:flex;flex-wrap:wrap;gap:8px;}
+  .spot-btn{font:inherit;font-size:13px;font-weight:600;background:var(--gold);color:var(--navy);border:none;border-radius:4px;padding:9px 14px;cursor:pointer;text-decoration:none;}
+  .spot-btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+
+  /* Profiles */
+  .profiles{margin-top:24px;}
+  .result-count{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mist);}
+  .profile{border-bottom:1px solid var(--line);scroll-margin-top:90px;}
+  .profile:last-child{border-bottom:none;}
+  .profile-row{width:100%;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;padding:16px 20px;background:none;border:none;text-align:left;font:inherit;color:inherit;cursor:pointer;}
+  .profile-row:hover{background:var(--paper);}
+  .rank{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:26px;color:var(--mist);text-align:center;}
+  .p-name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:21px;color:var(--navy);display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+  .p-sub{font-size:12.5px;color:var(--mist);margin-top:3px;}
+  .bars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px;max-width:560px;}
+  .bar-lbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:0.04em;color:var(--mist);display:flex;justify-content:space-between;}
+  .bar{height:6px;background:var(--line);border-radius:3px;margin-top:3px;overflow:hidden;}
+  .bar i{display:block;height:100%;border-radius:3px;}
+  .index-box{text-align:right;}
+  .index-box .num{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:32px;color:var(--navy);line-height:1;}
+  .index-box .lbl{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--mist);text-transform:uppercase;letter-spacing:0.05em;}
+  .caret{display:inline-block;transition:transform .15s;color:var(--mist);font-size:12px;margin-left:4px;}
+  .profile.open .caret{transform:rotate(90deg);}
+
+  .detail{display:none;padding:4px 20px 24px 78px;}
+  .profile.open .detail{display:block;}
+  @media(max-width:640px){
+    .detail{padding:4px 16px 20px;}
+    .profile-row{grid-template-columns:32px 1fr;padding:14px 16px;}
+    .index-box{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:8px;}
+    .bars{grid-template-columns:1fr;}
+  }
+  .partition{display:grid;grid-template-columns:1fr;gap:16px;}
+  @media(min-width:960px){.partition{grid-template-columns:1.5fr 1fr;}}
+  .block{border:1px solid var(--line);border-radius:8px;padding:16px 18px;}
+  .block h4{font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .block.facts{border-top:3px solid var(--navy);}
+  .block.judg{border-top:3px solid var(--gold);}
+  .block.unk{border-top:3px solid var(--mist);margin-top:16px;}
+  .fact{padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.6;}
+  .fact:last-child{border-bottom:none;}
+  .fact .k{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--mist);display:flex;justify-content:space-between;gap:8px;}
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:0.04em;padding:2px 7px;border-radius:10px;text-transform:uppercase;white-space:nowrap;}
+  .b-ver{background:rgba(31,122,77,0.12);color:var(--green);}
+  .b-chk{background:rgba(185,122,15,0.14);color:var(--amber);}
+  .b-draft{background:rgba(158,43,37,0.1);color:var(--red);}
+  .dockets{margin-top:12px;}
+  .docket{border-left:3px solid var(--navy);padding:6px 10px;margin-top:8px;background:var(--paper);border-radius:0 4px 4px 0;font-size:13px;line-height:1.5;}
+  .docket .ref{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--navy);}
+  .docket .ag{font-size:11px;color:var(--mist);}
+  .judg-item{margin-bottom:14px;}
+  .judg-item:last-child{margin-bottom:0;}
+  .judg-item .top{display:flex;justify-content:space-between;font-weight:600;font-size:13px;color:var(--navy);}
+  .judg-item p{font-size:13px;line-height:1.6;margin:6px 0 0;}
+  .unk ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6;}
+  .sources{margin-top:14px;font-size:12.5px;}
+  .sources a{color:var(--navy);}
+  .sources li{margin:3px 0;}
+  .empty{padding:30px 20px;text-align:center;color:var(--mist);font-size:14px;}
+
+  footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
+  .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
+  .footer-inner b{color:#D7DEEA;}
+
+  @media(max-width:640px){
+    .header-inner{flex-wrap:wrap;padding:14px 16px;}
+    nav.primary{gap:14px;font-size:11px;order:3;width:100%;justify-content:flex-start;overflow-x:auto;padding-top:8px;}
+    .wordmark .sub{display:none;}
+    main{padding:0 16px 40px;}
+    .page-hero{padding:16px 16px 24px;}
+    .crumb{padding:14px 16px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="mark"><span></span><span></span><span></span><span></span></div>
+      <div class="name">MDCGT</div>
+      <div class="sub">Maryland Data Center Governance Tracker</div>
+    </div>
+    <div class="tagline">Understand. Engage. Shape Our Future.</div>
+    <nav class="primary">
+      <a href="about.html">About</a>
+      <a href="about.html#methodology">Methodology</a>
+      <a href="index.html#counties">Counties</a>
+      <a href="grid.html">Grid &amp; FERC</a>
+      <a href="states.html" class="current">Other States</a>
+      <a href="#" class="btn-outline">Get Involved</a>
+    </nav>
+  </div>
+</header>
+
+<div class="crumb"><a href="index.html">Statewide Board</a> &nbsp;/&nbsp; Multi-State Policy Observatory</div>
+
+<div class="page-hero">
+  <div class="hero-top">
+    <h1 class="page-title">Multi-State Policy Observatory</h1>
+    <span class="updated-tag mono">Last updated 2026-09-30 · Draft</span>
+  </div>
+  <div class="headline-flags">
+    <span class="chip chip--outlined">Scope: MD · VA · PA · WV · TX</span>
+    <span class="chip chip--pending">Regional Focus: Prince George's County</span>
+    <span class="chip chip--contested">Out-of-state entries not yet verified</span>
+  </div>
+  <p class="snapshot-line">How does Maryland's approach to data centers compare with its neighbors, and with Texas, which runs its own grid? Each profile below keeps three things separate: <b>documented facts</b> (laws, dockets, permits), <b>our team's judgment</b> (scored assessments you can reweight), and <b>open unknowns</b> (what nobody has published yet).</p>
+</div>
+
+<main>
+
+  <div class="draft-note">
+    <b>Before this page goes public:</b> Maryland and Prince George's County entries are drawn from this tracker's own verified county, grid, and executive-order pages. Entries for Virginia, Pennsylvania, West Virginia, and Texas are marked <span class="badge b-chk">Verify</span> and still need someone to confirm each citation against the primary source. All 0–100 scores are <span class="badge b-draft">Draft judgment</span> placeholders for the team to set.
+  </div>
+
+  <!-- CONTROLS -->
+  <section class="panel" aria-label="Filters">
+    <div class="controls">
+      <div class="ctl">
+        <label for="filterState">State</label>
+        <select id="filterState">
+          <option value="ALL">All 5 states + PG County</option>
+          <option value="MD">Maryland (incl. PG County)</option>
+          <option value="PG_COUNTY">Regional Focus: PG County, MD</option>
+          <option value="VA">Virginia</option>
+          <option value="PA">Pennsylvania</option>
+          <option value="WV">West Virginia</option>
+          <option value="TX">Texas</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label for="filterGrid">Grid / Power Balance</label>
+        <select id="filterGrid">
+          <option value="ALL">Any</option>
+          <option value="PJM">PJM region</option>
+          <option value="ERCOT">ERCOT (Texas)</option>
+          <option value="Importer">Net importers</option>
+          <option value="Exporter">Net exporters</option>
+          <option value="SelfSufficient">Islanded grid</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label for="sortMode">Sort by</label>
+        <select id="sortMode">
+          <option value="score_desc">Priority index (high → low)</option>
+          <option value="gaps_desc">Policy gaps (most → fewest)</option>
+          <option value="policy_desc">Policy coverage (most → least)</option>
+          <option value="energy_importer">Grid strain (most → least)</option>
+          <option value="energy_exporter">Grid strain (least → most)</option>
+          <option value="name_asc">Name (A → Z)</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label for="searchBox">Search statutes, dockets, places</label>
+        <input id="searchBox" type="search" placeholder="e.g. moratorium, SB 6, Dominion">
+      </div>
+    </div>
+    <div class="weights">
+      <div class="weight-row">
+        <div class="top"><span>Policy gaps</span><span id="wGapsVal">40%</span></div>
+        <input type="range" id="wGaps" min="0" max="100" value="40">
+      </div>
+      <div class="weight-row">
+        <div class="top"><span>Grid strain</span><span id="wEnergyVal">35%</span></div>
+        <input type="range" id="wEnergy" min="0" max="100" value="35">
+      </div>
+      <div class="weight-row">
+        <div class="top"><span>Missing policy coverage</span><span id="wPolicyVal">25%</span></div>
+        <input type="range" id="wPolicy" min="0" max="100" value="25">
+      </div>
+      <p class="weight-help">The <b>priority index</b> (0–100) blends the three team-judgment scores using these weights. Higher means more urgent to watch: bigger gaps, more grid strain, and thinner policy coverage. Sliders are rebalanced automatically so the weights always add up to 100%.</p>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="panel map-wrap" aria-label="Map">
+    <div class="panel-head">
+      <h2><span class="eyebrow-mini">PJM / ERCOT regional overlay</span>Where these policies apply</h2>
+      <div class="zoom-btns">
+        <button class="zbtn" data-zoom="all">All states</button>
+        <button class="zbtn" data-zoom="midatlantic">Mid-Atlantic</button>
+        <button class="zbtn focus" data-zoom="pg_county">PG County, MD</button>
+        <button class="zbtn" data-zoom="texas">Texas</button>
+      </div>
+    </div>
+    <div id="map" role="region" aria-label="Map of tracked states"></div>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--red)"></i>Net importer</span>
+      <span><i class="dot" style="background:var(--green)"></i>Net exporter</span>
+      <span><i class="dot" style="background:var(--cyan)"></i>Islanded grid (ERCOT)</span>
+      <span><i class="dot" style="background:var(--gold)"></i>Regional focus (PG County)</span>
+    </div>
+  </section>
+
+  <!-- PG SPOTLIGHT -->
+  <section class="spotlight" aria-label="Prince George's County spotlight">
+    <div>
+      <span class="eyebrow-mini">Regional focus</span>
+      <h3>Prince George's County, Maryland</h3>
+      <p>Holds Maryland's longest data center moratorium (two years, adopted Jul 7, 2026) while three proposals sit in the pipeline: Landover Mall/Brightseat, Konterra (Laurel), and a Brandywine study area. LDR-155 is the presumptive off-ramp, and no hearing date has been set.</p>
+    </div>
+    <div class="spot-btns">
+      <button class="spot-btn" id="inspectPG">View in comparison</button>
+      <a class="spot-btn ghost" href="counties/pg.html">Full county profile &rarr;</a>
+    </div>
+  </section>
+
+  <!-- PROFILES -->
+  <section class="panel profiles" id="docketsSection" aria-label="State profiles">
+    <div class="panel-head">
+      <h2><span class="eyebrow-mini">Facts · Judgments · Unknowns</span>State policy profiles</h2>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div id="profileList"></div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="footer-inner">
+    <div style="max-width:520px;"><b>MDCGT</b> is a civic information project. All data is preliminary, compiled from public sources, and subject to change. This is not legal advice. Verify with the issuing state agency or legislature before acting.</div>
+    <div>Preliminary compilation from public sources.</div>
+    <div><a href="index.html" style="text-decoration:none;color:#D7DEEA;">&larr; Back to Statewide Board</a></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/*
+ * DATASET
+ * Each entry keeps documentedFacts, teamJudgments and unknowns separate.
+ * Every fact carries a status:
+ *   "verified" = already confirmed on another MDCGT page (cite it in `src`)
+ *   "verify"   = believed accurate but not yet checked against the primary source
+ * Scores in teamJudgments are 0–100 team placeholders (higher = more concern,
+ * except policyComprehensivenessScore, where higher = more complete policy).
+ */
+const JURISDICTIONS = [
+  {
+    id: "MD", name: "Maryland", lat: 39.0458, lng: -76.6413,
+    gridOperator: "PJM Interconnection",
+    gridFlowStatus: "Net electricity importer",
+    flowType: "Importer",
+    facts: [
+      { k: "Statewide review", status: "verified", src: "eo.html",
+        v: "Executive Order 01.01.2026.16 (signed Sept 23, 2026) creates a Maryland Data Center Task Force that reviews projects of 25 MW or more and rates them Aligned, Conditionally Aligned, or Not Aligned. It does not override county zoning." },
+      { k: "Tax incentive", status: "verified", src: "eo.html",
+        v: "2020 sales-and-use tax exemption for data centers. Gov. Moore has pledged to seek repeal in the January 2027 session; that requires legislation and has not happened yet." },
+      { k: "Transparency", status: "verified", src: "eo.html",
+        v: "State executive agencies may no longer enter, renew, or extend NDAs with data center developers (existing NDAs honored until they expire). A monthly public dashboard is ordered but not yet live." },
+      { k: "Grid cost allocation", status: "verified", src: "grid.html",
+        v: "Maryland's Office of People's Counsel is challenging at FERC how PJM assigns transmission costs driven largely by Northern Virginia data center growth. About $2.0B in capital costs has been assigned to Maryland ratepayers across three PJM windows. No FERC ruling found yet." },
+      { k: "State impact study", status: "verified", src: "grid.html",
+        v: "Data Center Impact Analysis and Report (SB 116 / HB 270) missed its Sept 1, 2026 statutory deadline. No new date has been set." },
+      { k: "Local landscape", status: "verified", src: "index.html#counties",
+        v: "Frederick extended its application pause to Jul 1, 2027; Montgomery has an 18-month moratorium; Prince George's has a 2-year moratorium; Charles is contested with no formal pause." },
+      { k: "Backup generators", status: "verify",
+        v: "Critical Infrastructure Streamlining Act of 2024 (SB 474 / HB 579) changed Public Service Commission permitting (CPCN) review for data center backup generators." }
+    ],
+    dockets: [
+      { agency: "Governor's Office", ref: "EO 01.01.2026.16", desc: "Data Center Task Force, NDA ban, public dashboard" },
+      { agency: "MD General Assembly", ref: "SB 116 / HB 270", desc: "Data Center Impact Analysis report — overdue" },
+      { agency: "FERC", ref: "MD OPC complaint", desc: "PJM transmission cost allocation — pending (see Grid & FERC page)" }
+    ],
+    sources: [
+      { label: "MDCGT: Executive Order page", url: "eo.html" },
+      { label: "MDCGT: Grid & FERC page", url: "grid.html" },
+      { label: "Maryland General Assembly", url: "https://mgaleg.maryland.gov/" }
+    ],
+    judgments: {
+      policy: 62, policyNote: "Improving fast but still fragmented. The new executive order adds a review layer and transparency, but binding water, emissions, and cost-protection rules still depend on counties or future legislation.",
+      energy: 82, energyNote: "Structural net importer. Large new loads intensify the transmission-cost fight Maryland is already waging at FERC.",
+      gaps: 72, gapNote: "The overdue state impact report leaves no independent statewide analysis of costs versus benefits. Water capacity is unknown in several pilot counties during an active drought."
+    },
+    unknowns: [
+      "When the state Data Center Impact Analysis report will be delivered.",
+      "Whether a tax-exemption repeal or statewide moratorium bill is introduced in January 2027.",
+      "Launch date for the state's public data center dashboard."
+    ]
+  },
+  {
+    id: "PG_COUNTY", parentState: "MD", name: "Prince George's County, MD",
+    lat: 38.8160, lng: -76.8483,
+    gridOperator: "PJM (Pepco & SMECO service areas)",
+    gridFlowStatus: "Within Maryland's import-dependent zone",
+    flowType: "Importer", hotspot: true,
+    facts: [
+      { k: "Governance status", status: "verified", src: "counties/pg.html",
+        v: "Two-year moratorium adopted Jul 7, 2026, the longest pause on record in Maryland. LDR-155 is the presumptive off-ramp vehicle, with no hearing scheduled." },
+      { k: "Active proposals", status: "verified", src: "counties/pg.html",
+        v: "Landover Mall/Brightseat, Konterra (Laurel, TPC Data Centers), and the Brandywine study area." },
+      { k: "Council positions", status: "verified", src: "counties/pg.html",
+        v: "Council Chair Krystal Oriadha, the moratorium's sponsor, has said on record she supports a full ban. Council member Jolene Ivey now wants to repeal the county's 2020 data center tax exemptions." },
+      { k: "Local implementation", status: "verified", src: "counties/pg.html",
+        v: "County Executive Order No. 1-2026 formally supports forthcoming Task Force recommendations." },
+      { k: "Water", status: "verified", src: "counties/pg.html",
+        v: "Water, grid, wastewater, and road capacity figures are all unknown. The county was in extreme drought as of late June 2026. WSSC's position on watershed impact is a watch item." }
+    ],
+    dockets: [
+      { agency: "PG County Council", ref: "2-year moratorium", desc: "Adopted Jul 7, 2026" },
+      { agency: "PG County Council", ref: "LDR-155", desc: "Presumptive off-ramp legislation, no hearing scheduled" }
+    ],
+    sources: [
+      { label: "MDCGT: Prince George's County profile", url: "counties/pg.html" },
+      { label: "Prince George's County Government", url: "https://www.princegeorgescountymd.gov/" }
+    ],
+    judgments: {
+      policy: 70, policyNote: "The strongest local pause in the state gives time to write rules, but the rules themselves (LDR-155, brownfield definition) aren't written yet.",
+      energy: 80, energyNote: "Sits inside Maryland's import-dependent grid. Utility capacity reserved for proposed sites has not been disclosed.",
+      gaps: 80, gapNote: "No capacity data at all for water, grid, wastewater, or roads, plus environmental justice concerns in southern PG County."
+    },
+    unknowns: [
+      "Grid capacity Pepco or SMECO has reserved for proposed PG County sites.",
+      "Konterra's grandfathering status under the moratorium.",
+      "Whether Council member Ivey formally introduces tax-incentive repeal legislation."
+    ]
+  },
+  {
+    id: "VA", name: "Virginia", lat: 37.4316, lng: -78.6569,
+    gridOperator: "PJM Interconnection",
+    gridFlowStatus: "Net electricity importer",
+    flowType: "Importer",
+    facts: [
+      { k: "Tax incentive", status: "verify",
+        v: "Retail sales and use tax exemption for qualifying data center equipment, Va. Code § 58.1-609.3(18), tied to investment and job thresholds." },
+      { k: "State study", status: "verify",
+        v: "JLARC published \"Data Centers in Virginia\" (Dec 2024), analyzing energy demand, ratepayer, water, and land-use impacts." },
+      { k: "Utility rates", status: "verify",
+        v: "The State Corporation Commission's 2025 Dominion Energy biennial review created a separate rate class for very large customers such as data centers, intended to protect other ratepayers from grid costs." },
+      { k: "Local zoning", status: "verify",
+        v: "Loudoun County ended by-right approval for data centers in 2025. The Prince William Digital Gateway rezoning was voided by a circuit court in 2025." }
+    ],
+    dockets: [
+      { agency: "VA SCC", ref: "Dominion biennial review (2025)", desc: "Large-load rate class; confirm case number" },
+      { agency: "JLARC", ref: "Data Centers in Virginia (2024)", desc: "Statewide impact study" }
+    ],
+    sources: [
+      { label: "JLARC reports", url: "https://jlarc.virginia.gov/" },
+      { label: "Virginia State Corporation Commission", url: "https://www.scc.virginia.gov/" },
+      { label: "Virginia Legislative Information System", url: "https://lis.virginia.gov/" }
+    ],
+    judgments: {
+      policy: 60, policyNote: "The most studied state, with some ratepayer protections, but siting authority remains almost entirely local.",
+      energy: 90, energyNote: "The largest data center market in the world, heavily import-dependent. Its load growth drives the PJM transmission costs Maryland is contesting.",
+      gaps: 65, gapNote: "No statewide water-use reporting requirement for data centers; cumulative noise and generator emissions are handled county by county."
+    },
+    unknowns: [
+      "How much of new PJM transmission cost Virginia load will ultimately bear versus neighboring states.",
+      "Total water use by Northern Virginia data centers during peak summer demand."
+    ]
+  },
+  {
+    id: "PA", name: "Pennsylvania", lat: 40.8781, lng: -77.7996,
+    gridOperator: "PJM Interconnection",
+    gridFlowStatus: "Net electricity exporter",
+    flowType: "Exporter",
+    facts: [
+      { k: "Tax incentive", status: "verify",
+        v: "Sales and use tax exemption for computer data center equipment, administered through a Department of Community & Economic Development certification program." },
+      { k: "Co-location", status: "verify",
+        v: "FERC rejected an amended interconnection agreement for the Talen/Amazon data center next to the Susquehanna nuclear plant in Nov 2024, spotlighting \"behind-the-meter\" co-location disputes." },
+      { k: "Generation deals", status: "verify",
+        v: "Constellation plans to restart Three Mile Island Unit 1 (renamed Crane Clean Energy Center) under a power purchase agreement with Microsoft." },
+      { k: "Utility rates", status: "verify",
+        v: "The PA Public Utility Commission has worked on a model tariff for large-load customers such as data centers." }
+    ],
+    dockets: [
+      { agency: "FERC", ref: "Susquehanna ISA (2024)", desc: "Co-location agreement rejected; confirm docket number" },
+      { agency: "PA PUC", ref: "Large-load model tariff", desc: "Confirm docket and status" }
+    ],
+    sources: [
+      { label: "PA Public Utility Commission", url: "https://www.puc.pa.gov/" },
+      { label: "FERC eLibrary", url: "https://elibrary.ferc.gov/" }
+    ],
+    judgments: {
+      policy: 50, policyNote: "Incentive-first. Utility-rate protections are still being developed and there is no statewide siting review.",
+      energy: 40, energyNote: "Exporter with nuclear and gas capacity, which is why developers want co-located power, though that can shift costs to the wider grid.",
+      gaps: 60, gapNote: "Co-location rules are still unsettled at FERC and no statewide water standard exists."
+    },
+    unknowns: [
+      "How FERC and PJM will finalize rules for data centers co-located with power plants.",
+      "Whether Pennsylvania's exports to Maryland shrink as in-state data center load grows."
+    ]
+  },
+  {
+    id: "WV", name: "West Virginia", lat: 38.5976, lng: -80.4549,
+    gridOperator: "PJM Interconnection",
+    gridFlowStatus: "Net electricity exporter",
+    flowType: "Exporter",
+    facts: [
+      { k: "Siting law", status: "verify",
+        v: "HB 2014 (2025), the Power Generation and Consumption Act, lets certified data centers pair with on-site \"microgrid\" power and limits local zoning control over those projects." },
+      { k: "Local conflict", status: "verify",
+        v: "In Tucker County, residents have opposed a proposed data center and gas power campus; its state air permit application drew heavy public comment in 2025." }
+    ],
+    dockets: [
+      { agency: "WV Legislature", ref: "HB 2014 (2025)", desc: "Microgrid districts and certified data centers" },
+      { agency: "WV DEP", ref: "Tucker County air permit", desc: "Confirm permit number and status" }
+    ],
+    sources: [
+      { label: "West Virginia Legislature", url: "https://www.wvlegislature.gov/" },
+      { label: "WV Department of Environmental Protection", url: "https://dep.wv.gov/" }
+    ],
+    judgments: {
+      policy: 35, policyNote: "Policy is designed to attract data centers and pre-empts much of local control; protective rules are thin.",
+      energy: 35, energyNote: "Coal-heavy net exporter. On-site gas plants could keep new load off the shared grid but add local air emissions.",
+      gaps: 78, gapNote: "Limited local say and limited public data on water and emissions for microgrid-powered sites."
+    },
+    unknowns: [
+      "How many certified microgrid districts will be created and where.",
+      "Cumulative air quality impacts of on-site gas generation near residential areas."
+    ]
+  },
+  {
+    id: "TX", name: "Texas", lat: 31.0, lng: -99.0,
+    gridOperator: "ERCOT (islanded grid)",
+    gridFlowStatus: "Mostly separate grid with limited ties to neighbors",
+    flowType: "SelfSufficient",
+    facts: [
+      { k: "Grid law", status: "verify",
+        v: "SB 6 (2025) set new rules for large loads (75 MW and up): interconnection standards, disclosure of backup generation, and the ability for ERCOT to curtail them during grid emergencies." },
+      { k: "Tax incentive", status: "verify",
+        v: "Sales tax exemption for qualifying data centers, Texas Tax Code § 151.359." },
+      { k: "Water", status: "verify",
+        v: "No statewide requirement for data centers to report water use; water planning runs through the Texas Water Development Board's regional process." }
+    ],
+    dockets: [
+      { agency: "TX Legislature", ref: "SB 6 (2025)", desc: "Large-load interconnection and curtailment" },
+      { agency: "PUCT", ref: "SB 6 rulemakings", desc: "Confirm project numbers" }
+    ],
+    sources: [
+      { label: "Texas Legislature Online", url: "https://capitol.texas.gov/" },
+      { label: "Public Utility Commission of Texas", url: "https://www.puc.texas.gov/" }
+    ],
+    judgments: {
+      policy: 58, policyNote: "SB 6 is one of the more detailed state grid laws for data centers. Land use and water are left mostly to local and regional bodies.",
+      energy: 70, energyNote: "An islanded grid can't lean on neighbors, so fast load growth is a direct reliability question. The 2021 winter storm is the reference point.",
+      gaps: 62, gapNote: "Water use in drought-prone regions is the largest open question."
+    },
+    unknowns: [
+      "How often ERCOT will actually curtail data centers under SB 6.",
+      "Aggregate data center water demand in West and Central Texas."
+    ]
+  }
+];
+
+/* ---------------- STATE ---------------- */
+let activeFilterState = "ALL";
+let activeFilterGrid = "ALL";
+let activeSortMode = "score_desc";
+let activeSearchTerm = "";
+let currentWeights = { gaps: 40, energy: 35, policy: 25 };
+let openIds = new Set();
+let mapInstance = null;
+let markersMap = {};
+
+const FLOW_COLORS = { Importer: "#9E2B25", Exporter: "#1F7A4D", SelfSufficient: "#1D6F86" };
+
+/* ---------------- SCORING ---------------- */
+function calculateScore(item, w) {
+  const total = w.gaps + w.energy + w.policy || 1;
+  const j = item.judgments;
+  const raw = j.gaps * w.gaps + j.energy * w.energy + (100 - j.policy) * w.policy;
+  return Math.round(raw / total);
+}
+
+function getFilteredAndSorted() {
+  const q = activeSearchTerm.trim().toLowerCase();
+  const list = JURISDICTIONS
+    .map(item => ({ ...item, score: calculateScore(item, currentWeights) }))
+    .filter(item => {
+      if (activeFilterState === "PG_COUNTY" && item.id !== "PG_COUNTY") return false;
+      if (activeFilterState !== "ALL" && activeFilterState !== "PG_COUNTY" &&
+          item.id !== activeFilterState && item.parentState !== activeFilterState) return false;
+
+      if (activeFilterGrid === "PJM" && !item.gridOperator.includes("PJM")) return false;
+      if (activeFilterGrid === "ERCOT" && !item.gridOperator.includes("ERCOT")) return false;
+      if (["Importer", "Exporter", "SelfSufficient"].includes(activeFilterGrid) && item.flowType !== activeFilterGrid) return false;
+
+      if (q) {
+        const haystack = [
+          item.name, item.gridOperator, item.gridFlowStatus,
+          ...item.facts.map(f => f.k + " " + f.v),
+          ...item.dockets.map(d => d.agency + " " + d.ref + " " + d.desc),
+          ...item.unknowns
+        ].join(" ").toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    });
+
+  const by = {
+    score_desc: (a, b) => b.score - a.score,
+    gaps_desc: (a, b) => b.judgments.gaps - a.judgments.gaps,
+    policy_desc: (a, b) => b.judgments.policy - a.judgments.policy,
+    energy_importer: (a, b) => b.judgments.energy - a.judgments.energy,
+    energy_exporter: (a, b) => a.judgments.energy - b.judgments.energy,
+    name_asc: (a, b) => a.name.localeCompare(b.name)
+  };
+  list.sort(by[activeSortMode] || (() => 0));
+  return list;
+}
+
+/* ---------------- RENDER ---------------- */
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function statusBadge(f) {
+  if (f.status === "verified") {
+    return `<a class="badge b-ver" href="${esc(f.src)}" style="text-decoration:none" title="Verified on this MDCGT page">Verified</a>`;
+  }
+  return `<span class="badge b-chk" title="Not yet checked against the primary source">Verify</span>`;
+}
+
+function bar(label, val, color) {
+  return `<div><div class="bar-lbl"><span>${label}</span><span>${val}</span></div>
+    <div class="bar"><i style="width:${val}%;background:${color}"></i></div></div>`;
+}
+
+function renderProfiles(list) {
+  const el = document.getElementById("profileList");
+  document.getElementById("resultCount").textContent =
+    `${list.length} of ${JURISDICTIONS.length} shown`;
+
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">No jurisdictions match these filters. Try clearing the search box or setting State to “All”.</div>`;
+    return;
+  }
+
+  el.innerHTML = list.map((st, idx) => {
+    const j = st.judgments;
+    const tag = st.hotspot ? `<span class="chip chip--pending">Regional focus</span>` : "";
+    return `
+    <article class="profile ${openIds.has(st.id) ? "open" : ""}" id="profile-${st.id}">
+      <button class="profile-row" data-id="${st.id}" aria-expanded="${openIds.has(st.id)}">
+        <div class="rank">${idx + 1}</div>
+        <div>
+          <div class="p-name">${esc(st.name)} ${tag}<span class="caret">▶</span></div>
+          <div class="p-sub">${esc(st.gridOperator)} · ${esc(st.gridFlowStatus)}</div>
+          <div class="bars">
+            ${bar("Policy gaps", j.gaps, "#9E2B25")}
+            ${bar("Grid strain", j.energy, "#B97A0F")}
+            ${bar("Policy coverage", j.policy, "#1F7A4D")}
+          </div>
+        </div>
+        <div class="index-box"><div class="num">${st.score}</div><div class="lbl">Priority index</div></div>
+      </button>
+      <div class="detail">
+        <div class="partition">
+          <div class="block facts">
+            <h4>Documented facts</h4>
+            ${st.facts.map(f => `
+              <div class="fact">
+                <div class="k"><span>${esc(f.k)}</span>${statusBadge(f)}</div>
+                <div>${esc(f.v)}</div>
+              </div>`).join("")}
+            <div class="dockets">
+              <div class="eyebrow-mini">Key dockets &amp; actions</div>
+              ${st.dockets.map(d => `
+                <div class="docket"><span class="ref">${esc(d.ref)}</span> <span class="ag">· ${esc(d.agency)}</span><br>${esc(d.desc)}</div>`).join("")}
+            </div>
+            <ul class="sources">
+              ${st.sources.map(s => `<li><a href="${esc(s.url)}" ${s.url.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${esc(s.label)}</a></li>`).join("")}
+            </ul>
+          </div>
+          <div>
+            <div class="block judg">
+              <h4>Team judgment <span class="badge b-draft">Draft</span></h4>
+              <div class="judg-item"><div class="top"><span>Policy coverage</span><span class="mono">${j.policy}/100</span></div><p>${esc(j.policyNote)}</p></div>
+              <div class="judg-item"><div class="top"><span>Grid strain</span><span class="mono">${j.energy}/100</span></div><p>${esc(j.energyNote)}</p></div>
+              <div class="judg-item"><div class="top"><span>Policy gaps</span><span class="mono">${j.gaps}/100</span></div><p>${esc(j.gapNote)}</p></div>
+            </div>
+            <div class="block unk">
+              <h4>Open unknowns</h4>
+              <ul>${st.unknowns.map(u => `<li>${esc(u)}</li>`).join("")}</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+/* ---------------- MAP ---------------- */
+function initMap() {
+  if (typeof L === "undefined") {
+    document.getElementById("map").innerHTML =
+      '<div class="empty">The map could not load (no connection to the map library). The profiles below still work.</div>';
+    return;
+  }
+  mapInstance = L.map("map", { scrollWheelZoom: false }).setView([37.5, -85.0], 5);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 18
+  }).addTo(mapInstance);
+}
+
+function updateMapMarkers(list) {
+  if (!mapInstance) return;
+  Object.values(markersMap).forEach(m => mapInstance.removeLayer(m));
+  markersMap = {};
+
+  list.forEach((st, idx) => {
+    const hot = !!st.hotspot;
+    const size = hot ? 34 : 28;
+    const bg = hot ? "#E8B21E" : FLOW_COLORS[st.flowType];
+    const icon = L.divIcon({
+      className: "",
+      html: `<div class="pin" style="width:${size}px;height:${size}px;background:${bg};color:${hot ? "#101E33" : "#fff"};font-size:${hot ? 11 : 11}px">${hot ? "PG" : st.id}</div>`,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2]
+    });
+    const marker = L.marker([st.lat, st.lng], { icon, zIndexOffset: hot ? 1000 : 0 }).addTo(mapInstance);
+    marker.bindPopup(`
+      <div class="pop-eyebrow">${hot ? "Regional focus" : "Rank #" + (idx + 1)} · ${esc(st.gridOperator.split("(")[0].trim())}</div>
+      <div class="pop-name">${esc(st.name)}</div>
+      <div class="pop-line"><b>Priority index:</b> ${st.score}/100</div>
+      <div class="pop-line">${esc(st.gridFlowStatus)}</div>
+      <div class="pop-line"><b>Policy gaps:</b> ${st.judgments.gaps}/100</div>
+      <button class="pop-btn" data-inspect="${st.id}">Open profile</button>`);
+    markersMap[st.id] = marker;
+  });
+}
+
+function zoomMap(region) {
+  if (!mapInstance) return;
+  const views = {
+    all: [[37.5, -85.0], 5],
+    midatlantic: [[39.2, -77.5], 7],
+    pg_county: [[38.83, -76.85], 10],
+    texas: [[31.2, -98.5], 6]
+  };
+  const v = views[region];
+  if (!v) return;
+  mapInstance.setView(v[0], v[1]);
+  if (region === "pg_county" && markersMap.PG_COUNTY) markersMap.PG_COUNTY.openPopup();
+}
+
+/* ---------------- ACTIONS ---------------- */
+function expandAndScrollTo(id) {
+  // Make sure the target is visible under the current filters
+  const visible = getFilteredAndSorted().some(s => s.id === id);
+  if (!visible) {
+    activeFilterState = "ALL"; activeFilterGrid = "ALL"; activeSearchTerm = "";
+    document.getElementById("filterState").value = "ALL";
+    document.getElementById("filterGrid").value = "ALL";
+    document.getElementById("searchBox").value = "";
+  }
+  openIds.add(id);
+  refresh();
+  const el = document.getElementById("profile-" + id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function refresh() {
+  const list = getFilteredAndSorted();
+  renderProfiles(list);
+  updateMapMarkers(list);
+}
+
+/* Keep the three weights summing to 100 when one slider moves */
+function setWeight(key, value) {
+  value = Number(value);
+  const others = Object.keys(currentWeights).filter(k => k !== key);
+  const remaining = 100 - value;
+  const otherTotal = others.reduce((s, k) => s + currentWeights[k], 0);
+  currentWeights[key] = value;
+  if (otherTotal === 0) {
+    others.forEach(k => currentWeights[k] = remaining / others.length);
+  } else {
+    others.forEach(k => currentWeights[k] = currentWeights[k] / otherTotal * remaining);
+  }
+  // Round while keeping the sum at exactly 100
+  const r = { gaps: Math.round(currentWeights.gaps), energy: Math.round(currentWeights.energy) };
+  r.policy = 100 - r.gaps - r.energy;
+  currentWeights = r;
+  [["gaps", "wGaps"], ["energy", "wEnergy"], ["policy", "wPolicy"]].forEach(([k, id]) => {
+    document.getElementById(id).value = currentWeights[k];
+    document.getElementById(id + "Val").textContent = currentWeights[k] + "%";
+  });
+  refresh();
+}
+
+/* ---------------- WIRING ---------------- */
+document.getElementById("filterState").addEventListener("change", e => {
+  activeFilterState = e.target.value;
+  refresh();
+  if (activeFilterState === "PG_COUNTY") zoomMap("pg_county");
+  else if (activeFilterState === "TX") zoomMap("texas");
+  else if (activeFilterState !== "ALL") zoomMap("midatlantic");
+});
+document.getElementById("filterGrid").addEventListener("change", e => { activeFilterGrid = e.target.value; refresh(); });
+document.getElementById("sortMode").addEventListener("change", e => { activeSortMode = e.target.value; refresh(); });
+document.getElementById("searchBox").addEventListener("input", e => { activeSearchTerm = e.target.value; refresh(); });
+document.getElementById("wGaps").addEventListener("input", e => setWeight("gaps", e.target.value));
+document.getElementById("wEnergy").addEventListener("input", e => setWeight("energy", e.target.value));
+document.getElementById("wPolicy").addEventListener("input", e => setWeight("policy", e.target.value));
+document.getElementById("inspectPG").addEventListener("click", () => { zoomMap("pg_county"); expandAndScrollTo("PG_COUNTY"); });
+
+document.querySelectorAll(".zbtn").forEach(b => b.addEventListener("click", () => zoomMap(b.dataset.zoom)));
+
+document.getElementById("profileList").addEventListener("click", e => {
+  const row = e.target.closest(".profile-row");
+  if (!row) return;
+  const id = row.dataset.id;
+  openIds.has(id) ? openIds.delete(id) : openIds.add(id);
+  const art = document.getElementById("profile-" + id);
+  art.classList.toggle("open");
+  row.setAttribute("aria-expanded", art.classList.contains("open"));
+});
+
+// Popup buttons live inside Leaflet's DOM, so listen at document level
+document.addEventListener("click", e => {
+  const btn = e.target.closest("[data-inspect]");
+  if (btn) { mapInstance && mapInstance.closePopup(); expandAndScrollTo(btn.dataset.inspect); }
+});
+
+initMap();
+refresh();
+</script>
+</body>
+</html>
