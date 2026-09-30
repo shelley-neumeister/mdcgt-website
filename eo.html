@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Executive Order 01.01.2026.16 — MDCGT | Maryland Data Center Governance Tracker</title>
+<meta name="description" content="Gov. Moore's Sept 23, 2026 executive order on data centers: the Task Force, the five evaluation principles, the Aligned/Not Aligned determination process, and the state NDA ban.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@500;600;700;800;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101E33;--ink2:#1B2C4A;--paper:#F5F7FA;--card:#FFFFFF;--gold:#E8B21E;
+    --red:#9E2B25;--maroon:#6B1A1A;--green:#1F7A4D;--amber:#B97A0F;--slate:#33415C;--mist:#8A97AD;--line:#E2E7EF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--slate);font-family:'Work Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:'Big Shoulders',sans-serif;color:var(--navy);margin:0;letter-spacing:0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .mark{width:34px;height:34px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;border-radius:4px;overflow:hidden;flex:none;}
+  .mark span:nth-child(1){background:var(--gold);}
+  .mark span:nth-child(2){background:var(--ink2);}
+  .mark span:nth-child(3){background:#C7CDD8;}
+  .mark span:nth-child(4){background:var(--red);}
+  header.site{background:var(--navy);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:50;}
+  .header-inner{max-width:1280px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;gap:18px;}
+  .wordmark{display:flex;align-items:center;gap:12px;flex:none;}
+  .wordmark .name{font-family:'Big Shoulders',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:0.02em;line-height:1;}
+  .wordmark .sub{font-size:11.5px;color:#B8C2D6;line-height:1.3;border-left:1px solid rgba(255,255,255,0.2);padding-left:12px;max-width:150px;}
+  .tagline{flex:1;text-align:center;color:var(--gold);font-family:'Big Shoulders',sans-serif;font-weight:600;font-size:16px;letter-spacing:0.03em;display:none;}
+  nav.primary{display:flex;align-items:center;gap:26px;font-size:12.5px;font-weight:600;letter-spacing:0.06em;color:#D7DEEA;text-transform:uppercase;}
+  nav.primary a{text-decoration:none;}
+  nav.primary a:hover{color:#fff;}
+  nav.primary a.current{color:var(--gold);}
+  .btn-outline{border:1px solid var(--gold);color:var(--gold) !important;padding:8px 14px;border-radius:3px;white-space:nowrap;}
+  .btn-outline:hover{background:var(--gold);color:var(--navy) !important;}
+  @media(min-width:980px){.tagline{display:block;}}
+  .crumb{max-width:1280px;margin:0 auto;padding:16px 28px 0;font-size:12px;color:var(--mist);}
+  .crumb a{text-decoration:none;color:var(--mist);}
+  .crumb a:hover{color:var(--navy);}
+
+  .page-hero{max-width:1280px;margin:0 auto;padding:18px 28px 30px;}
+  .hero-top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;}
+  .page-title{font-size:clamp(30px,4.6vw,48px);font-weight:800;line-height:1.02;max-width:820px;}
+  .updated-tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--mist);}
+  .headline-flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:0.04em;padding:5px 11px;border-radius:20px;text-transform:uppercase;line-height:1.4;white-space:nowrap;}
+  .chip--verified{background:var(--green);color:#fff;}
+  .chip--pending{background:var(--amber);color:#fff;}
+  .chip--outlined{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .chip--contested{background:transparent;color:var(--red);border:1px solid var(--red);}
+  .snapshot-line{font-size:16px;line-height:1.7;color:var(--slate);max-width:900px;margin-top:18px;}
+
+  main{max-width:1280px;margin:0 auto;padding:0 28px 60px;}
+
+  .principles-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:8px 0 40px;}
+  .principle-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:16px 18px;}
+  .principle-card .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mist);letter-spacing:0.06em;}
+  .principle-card .lbl{font-family:'Big Shoulders',sans-serif;font-weight:700;font-size:16px;color:var(--navy);margin-top:4px;line-height:1.15;}
+
+  .layout{display:grid;grid-template-columns:1fr;gap:36px;}
+  @media(min-width:960px){.layout{grid-template-columns:2.1fr 1fr;}}
+  .stack{display:flex;flex-direction:column;gap:32px;}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:24px 26px;}
+  .panel h2{font-size:22px;font-weight:800;margin-bottom:16px;}
+  .panel h2 .eyebrow-mini{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--mist);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+
+  .alert-panel{background:rgba(158,43,37,0.06);border:1px solid rgba(158,43,37,0.3);border-radius:8px;padding:24px 26px;}
+  .alert-panel h2{color:var(--red);}
+
+  .determination-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:6px;}
+  @media(min-width:700px){.determination-grid{grid-template-columns:repeat(3,1fr);}}
+  .det-card{border:1px solid var(--line);border-radius:8px;padding:16px 18px;}
+  .det-card.aligned{border-top:4px solid var(--green);}
+  .det-card.conditional{border-top:4px solid var(--amber);}
+  .det-card.not-aligned{border-top:4px solid var(--maroon);}
+  .det-card h4{font-size:15px;font-weight:700;margin-bottom:8px;}
+  .det-card.aligned h4{color:var(--green);}
+  .det-card.conditional h4{color:var(--amber);}
+  .det-card.not-aligned h4{color:var(--maroon);}
+  .det-card p{font-size:13px;line-height:1.6;color:var(--slate);margin:0;}
+
+  .claim{border-bottom:1px solid var(--line);padding:14px 0;}
+  .claim:last-child{border-bottom:none;padding-bottom:0;}
+  .claim:first-child{padding-top:0;}
+  .claim-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px;}
+  .claim-status{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.06em;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
+  .claim-status.verified{background:var(--green);color:#fff;}
+  .claim-status.assessment{background:var(--amber);color:#fff;}
+  .claim-status.unknown{background:transparent;color:var(--mist);border:1px solid var(--mist);}
+  .claim-text{font-size:14.5px;color:var(--slate);line-height:1.55;}
+  .claim-src{font-size:11.5px;color:var(--mist);margin-top:3px;font-style:italic;}
+
+  .timeline{position:relative;padding-left:22px;}
+  .timeline::before{content:"";position:absolute;left:5px;top:4px;bottom:4px;width:2px;background:var(--line);}
+  .t-item{position:relative;padding-bottom:20px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{content:"";position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--card);box-shadow:0 0 0 1px var(--gold);}
+  .t-item.flag::before{background:var(--red);box-shadow:0 0 0 1px var(--red);}
+  .t-date{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--mist);letter-spacing:0.03em;}
+  .t-body{font-size:14px;line-height:1.65;color:var(--slate);margin-top:3px;}
+  .t-body b{color:var(--navy);}
+
+  .side-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:20px 22px;margin-bottom:20px;}
+  .side-panel h3{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  .gov-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;}
+  .gov-row .k{color:var(--slate);}
+  .gov-row .v{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--navy);text-align:right;}
+
+  .watch-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.5;}
+  .watch-item:last-child{border-bottom:none;padding-bottom:0;}
+  .watch-item:first-child{padding-top:0;}
+  .watch-dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--red);margin-top:5px;}
+
+  .gap-panel{background:rgba(232,178,30,0.08);border:1px solid rgba(185,122,15,0.3);border-radius:8px;padding:18px 20px;}
+  .gap-panel h3{font-size:14px;color:var(--amber);margin-bottom:8px;}
+  .gap-panel li{font-size:13px;line-height:1.6;color:var(--slate);margin-bottom:4px;}
+  .gap-panel ul{margin:0;padding-left:18px;}
+
+  .source-item{font-size:12px;color:var(--mist);padding:6px 0;border-bottom:1px solid var(--line);}
+  .source-item:last-child{border-bottom:none;}
+  .source-item b{color:var(--slate);font-weight:600;}
+
+  .reaction-item{padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.55;}
+  .reaction-item:last-child{border-bottom:none;padding-bottom:0;}
+  .reaction-item:first-child{padding-top:0;}
+  .reaction-item b{color:var(--navy);}
+
+  footer.site{background:var(--navy);color:#9AA6BC;padding:28px 28px 24px;margin-top:20px;}
+  .footer-inner{max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:12px;line-height:1.6;}
+  .footer-inner b{color:#D7DEEA;}
+
+  @media(max-width:640px){
+    .header-inner{flex-wrap:wrap;}
+    nav.primary{gap:14px;font-size:11px;order:3;width:100%;justify-content:flex-start;overflow-x:auto;padding-top:8px;}
+    .wordmark .sub{display:none;}
+    main{padding:0 16px 40px;}
+    .page-hero{padding:16px 16px 24px;}
+    .crumb{padding:14px 16px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <div class="wordmark">
+      <div class="mark"><span></span><span></span><span></span><span></span></div>
+      <div class="name">MDCGT</div>
+      <div class="sub">Maryland Data Center Governance Tracker</div>
+    </div>
+    <div class="tagline">Understand. Engage. Shape Our Future.</div>
+    <nav class="primary">
+      <a href="about.html">About</a>
+      <a href="about.html#methodology">Methodology</a>
+      <a href="index.html#counties">Counties</a>
+      <a href="grid.html">Grid &amp; FERC</a>
+      <a href="eo.html" class="current">Executive Order</a>
+      <a href="#" class="btn-outline">Get Involved</a>
+    </nav>
+  </div>
+</header>
+
+<div class="crumb"><a href="index.html">Statewide Board</a> &nbsp;/&nbsp; Executive Order 01.01.2026.16</div>
+
+<div class="page-hero">
+  <div class="hero-top">
+    <h1 class="page-title">Executive Order 01.01.2026.16 — Responsible Data Center Development</h1>
+    <span class="updated-tag mono">Published 2026-09-30 · New page, tracker run 1</span>
+  </div>
+  <div class="headline-flags">
+    <span class="chip chip--verified">Signed 9/23/2026</span>
+    <span class="chip chip--pending">Dashboard Not Yet Live</span>
+    <span class="chip chip--outlined">No Enforcement Mechanism Beyond State Incentives</span>
+  </div>
+  <p class="snapshot-line">Gov. Wes Moore signed Executive Order 01.01.2026.16 on Sept 23, 2026, creating the state's first uniform review process for large data center proposals. It does not pause, ban, or override any county's own authority — every action it takes runs through what the state itself controls: incentives, advocacy, agency review sequencing, and a new public dashboard. This page covers the order itself. A separate, same-day policy call to repeal Maryland's 2020 data center tax exemption is noted below as a distinct action, not part of the order.</p>
+</div>
+
+<main>
+
+  <div class="principles-strip">
+    <div class="principle-card"><div class="num mono">PRINCIPLE 1</div><div class="lbl">Ratepayer &amp; Grid Protection</div></div>
+    <div class="principle-card"><div class="num mono">PRINCIPLE 2</div><div class="lbl">Economic Benefit for Marylanders</div></div>
+    <div class="principle-card"><div class="num mono">PRINCIPLE 3</div><div class="lbl">Community Voice</div></div>
+    <div class="principle-card"><div class="num mono">PRINCIPLE 4</div><div class="lbl">Environmental Protection</div></div>
+    <div class="principle-card"><div class="num mono">PRINCIPLE 5</div><div class="lbl">Transparency &amp; Accountability</div></div>
+  </div>
+
+  <div class="layout">
+
+    <div class="stack">
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">What It Creates</span>Maryland Data Center Task Force</h2>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status verified">Verified</span></div>
+          <div class="claim-text">Housed in the Governor's Office, with representatives from the Maryland Energy Administration and the Departments of Commerce, Labor, Environment, Natural Resources, Agriculture, and Planning. The Task Force reviews proposed data center projects expected to draw at least 25 megawatts at peak demand and advises the affected local jurisdiction — it does not replace county zoning or permitting authority.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">The Core Mechanism</span>Aligned / Conditionally Aligned / Not Aligned</h2>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0 0 14px;">For each reviewed project, the Task Force issues a written, public determination against the five principles above, placing it in one of three categories. Governor Moore summarized the underlying standard bluntly: <i>"They need to pay their own way, or they need to go away."</i></p>
+        <div class="determination-grid">
+          <div class="det-card aligned">
+            <h4>ALIGNED</h4>
+            <p>Eligible for state incentives, grants, loans, and financing. Can receive state letters of support and advocacy before bodies like PJM and FERC.</p>
+          </div>
+          <div class="det-card conditional">
+            <h4>CONDITIONALLY ALIGNED</h4>
+            <p>Same eligibility for incentives and advocacy as Aligned, contingent on stated conditions the developer must still meet.</p>
+          </div>
+          <div class="det-card not-aligned">
+            <h4>NOT ALIGNED</h4>
+            <p>No state incentives, grants, loans, financing, letters of support, or advocacy. Agencies defer substantive review until the developer documents all required local land-use approvals.</p>
+          </div>
+        </div>
+        <div class="claim" style="margin-top:6px;">
+          <div class="claim-top"><span class="claim-status verified">Verified</span></div>
+          <div class="claim-text">Process timeline: the Task Force has 60 days to publish an initial assessment on a public website; developers may request reassessment within 30 days of that publication.</div>
+        </div>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status assessment">Assessment — Cross-Reference</span></div>
+          <div class="claim-text">Read literally, the "defer substantive review until required local approvals are documented" language means a project cannot be found Aligned or Conditionally Aligned while it is currently missing, or has been denied, a required local approval. <b>Frederick County is the first live test of this:</b> County Executive Fitzwater's Sept 14, 2026 rejection of the Catellus/Quantum Maryland DRRA (see the <a href="counties/frederick.html" style="color:var(--navy);text-decoration:underline;">Frederick page</a>) is a local denial that predates this order by nine days. No Task Force determination on any Frederick project has been issued yet — this is our reading of how the order's own text would apply, not a state ruling.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">State-Level NDA Ban</span>Prospective, Not Retroactive</h2>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status verified">Verified</span></div>
+          <div class="claim-text">State executive agencies are barred from entering, renewing, or extending non-disclosure agreements with data center developers, operators, or site-selection agents. Existing NDAs already in place are honored as written — they are not voided — but cannot be renewed or extended once they expire.</div>
+        </div>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status unknown">Scope Limit</span></div>
+          <div class="claim-text">This provision governs <i>state</i> executive agencies only. It does not reach NDAs between developers and county governments, and does not affect any confidentiality agreement a county has separately entered into. Any county-level NDA question is a distinct, county-specific matter this page does not cover.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">Transparency</span>Maryland Data Center Dashboard</h2>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status verified">Verified</span></div>
+          <div class="claim-text">The order directs a public, monthly-updated dashboard tracking: project location, developer identity, parent company, anchor tenants, expected power demand, expected water use, state actions requested, Task Force determinations, developer commitments, and annual reporting.</div>
+        </div>
+        <div class="claim">
+          <div class="claim-top"><span class="claim-status unknown">Not Yet Live</span></div>
+          <div class="claim-text">As of this update, no launch date has been announced and the dashboard is not yet published anywhere we could locate. This tracker will link to it directly once it goes live.</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2><span class="eyebrow-mini">Related, But Separate</span>Tax Exemption Repeal — Not Part of This Order</h2>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--slate);margin:0;">The same day he signed the order, Gov. Moore separately pledged to work with the General Assembly in the January 2027 session to repeal Maryland's 2020 data center sales-and-use tax exemption. That repeal would require legislation — it is not accomplished by this executive order and has no effect unless and until the General Assembly acts. Moore also indicated he would sign a statewide data center moratorium bill if the legislature passed one, which is likewise not part of this order.</p>
+      </div>
+
+    </div>
+
+    <div>
+      <div class="side-panel">
+        <h3>Order Status</h3>
+        <div class="gov-row"><span class="k">Order number</span><span class="v">01.01.2026.16</span></div>
+        <div class="gov-row"><span class="k">Signed</span><span class="v">9/23/2026</span></div>
+        <div class="gov-row"><span class="k">Applies to</span><span class="v">≥25 MW PROJECTS</span></div>
+        <div class="gov-row"><span class="k">Dashboard</span><span class="v" style="color:var(--red);">NOT YET LIVE</span></div>
+        <div class="gov-row"><span class="k">Overrides county zoning</span><span class="v">NO</span></div>
+      </div>
+
+      <div class="side-panel">
+        <h3>Watch Items</h3>
+        <div class="watch-item"><span class="watch-dot"></span>Whether/when the Task Force issues its first public determination, and on which project.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Whether Frederick's Sept 14 DRRA rejection becomes a factor in any Task Force review of a Frederick project.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Dashboard launch date — none announced yet.</div>
+        <div class="watch-item"><span class="watch-dot"></span>Whether a tax-exemption repeal bill or a statewide moratorium bill is introduced in the January 2027 session.</div>
+      </div>
+
+      <div class="side-panel">
+        <h3>Political Reaction</h3>
+        <div class="reaction-item"><b>Senate Minority Leader Steve Hershey (R-Upper Shore):</b> "You cannot recruit an industry with one hand while taxing it."</div>
+        <div class="reaction-item"><b>Green Party candidate Andy Ellis:</b> "A moratorium is a half-measure, but a task force is nothing. It's lip service."</div>
+        <div class="reaction-item"><b>Food &amp; Water Watch:</b> supports the tax-exemption repeal call but wants statewide pause legislation, not a task force.</div>
+        <div class="reaction-item"><b>Chesapeake Climate Action Network:</b> wants a 100% clean-energy requirement attached to any Aligned determination.</div>
+      </div>
+
+      <div class="gap-panel" style="margin-bottom:20px;">
+        <h3 class="mono">Known Gaps</h3>
+        <ul>
+          <li>Full Task Force membership by name — agencies are named, individuals are not yet confirmed.</li>
+          <li>Whether "documents all required local land use approvals" has any exception process, or is a hard bar.</li>
+          <li>Dashboard launch timeline.</li>
+        </ul>
+      </div>
+
+      <div class="side-panel">
+        <h3>Sources</h3>
+        <div class="source-item"><b>governor.maryland.gov</b> — official press release, 9/23/26</div>
+        <div class="source-item"><b>Maryland Matters</b> — 9/23/26</div>
+        <div class="source-item"><b>CBS Baltimore</b> — 9/23/26</div>
+        <div class="source-item"><b>Nature Forward</b> — press statement, 9/23/26</div>
+        <div class="source-item"><b>Maryland Bay News</b> — 9/23/26</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="footer-inner">
+    <div style="max-width:520px;"><b>MDCGT</b> is a civic information project. All data is preliminary, compiled from public sources, and subject to change. This is not legal advice — verify directly with the Governor's Office or the named agencies before acting on anything here.</div>
+    <div>Preliminary compilation from public sources. Not legal advice. Verify with the issuing agency before acting.</div>
+    <div><a href="index.html" style="text-decoration:none;color:#D7DEEA;">&larr; Back to Statewide Board</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
